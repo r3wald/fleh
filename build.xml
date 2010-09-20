@@ -1,0 +1,46 @@
+<project name="FLEH" default="build" basedir=".">
+	<taskdef name="grep" classname="ise.antelope.tasks.Find" />
+	<description>
+		'Fliplife Enhanced' build file
+    </description>
+
+	<property name="src" location="source" />
+	<property name="dist" location="releases" />
+
+	<target name="init">
+		<tstamp />
+	</target>
+
+	<target name="build">
+<!--
+		<exec executable="bash" dir="${src}">
+			<arg value="-c" />
+			<arg value="cat js/fleh.js js/fleh/energy.js js/fleh/autopilot.js js/fleh/tool.js js/fleh/legacy.js js/init.js | yuicompressor -v -t js -o fleh.js" />
+		</exec>
+		<exec executable="yuicompressor" dir="${src}">
+			<arg value="-v" />
+			<arg value="css/fleh.css" />
+			<arg value="-o fleh.css" />
+		</exec>
+ -->
+		<exec executable="bash" dir="${src}">
+			<arg value="-c" />
+			<arg value="cat js/fleh.js js/fleh/energy.js js/fleh/autopilot.js js/fleh/tool.js js/fleh/legacy.js js/init.js > fleh.js" />
+		</exec>
+		<exec executable="bash" dir="${src}">
+			<arg value="-c" />
+			<arg value="cat css/fleh.css > fleh.css" />
+		</exec>
+		<loadfile property="manifest" srcFile="${src}/manifest.json" />
+		<grep in="${manifest}" regex='version.\s*:\s*.([0-9\.]+)' group="1"
+			property="version" />
+		<property name="file" value="${dist}/fleh-${version}.zip" />
+		<fail message="release ${version} already exists">
+			<condition>
+				<available file="${file}" type="file" />
+			</condition>
+		</fail>
+		<zip destfile="${file}" basedir="${src}" filesonly="true" update="false" includes="*" />
+	</target>
+
+</project>

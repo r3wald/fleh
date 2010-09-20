@@ -1,0 +1,13 @@
+@CHARSET "UTF-8";
+
+.fleh-hint-max-xph,
+.fleh-hint-max-xphb {
+	font-weight: bold;	
+	color: #202080;	
+}
+
+.fleh-hint-max-cph,
+.fleh-hint-max-cphb {
+	font-weight: bold;	
+	color: #208020;
+}
