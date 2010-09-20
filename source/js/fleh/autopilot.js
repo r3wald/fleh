@@ -30,8 +30,29 @@ Fleh.Autopilot = Class.create(
 					
 				} else if (match = window.location.href.match(/^http:\/\/fliplife.com\/companies\/(\d)\/projects\/(\d+)$/)) {
 					// activity
-					this.handleActivity(match[2]);
+					this.handleActivity();
 				}
+			},
+			
+			load: function(url)
+			{
+				window.location.href=url;
+			},
+			
+			reload: function()
+			{
+				this.load(window.location.href);
+			},
+			
+			reloadAfter: function(seconds)
+			{
+				var self = this;
+				setTimeout(
+					function() {
+						self.reload();
+					},
+					1000 * seconds
+				);
 			},
 			
 			findCurrentActivityAndSwitch: function()
@@ -59,6 +80,7 @@ Fleh.Autopilot = Class.create(
 				
 				if (container.find('#timeSlider.busy').length) {
 					console.log('you are busy doing this project.');
+					this.reloadAfter(35);
 					
 				} else if (container.find('#timeSlider').length) {
 					// find max energy value, set and submit
@@ -66,15 +88,27 @@ Fleh.Autopilot = Class.create(
 					var max = meter.attr('data-max');
 					var input = jQuery('#fe-amount');
 					input.val(max);
-					input.val(1);
+					// input.val(1); // developing
 					var form = jQuery('#submitForm');
-					// form.submit();
+					form.submit();
 					
 				} else if (container.find('.unable').length) {
 					console.log('project done.');
 					
 				} else if (container.find('.busy').length) {
 					console.log('you are busy.');
+				
+				} else if (jQuery('#rightBar .actionButtons a.green span').text()=='Teilnehmen') {
+					console.log('new job!');
+					var buttons = jQuery('.projectHeader .actionButtons a.green');
+					if (!buttons.length) {
+						return;
+					}
+					link = buttons[0].href;
+					if (!link.match(/\/apply/)) {
+						return;
+					}
+					this.load(link);
 					
 				} else {
 					console.log('???');
