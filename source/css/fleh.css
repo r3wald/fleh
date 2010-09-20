@@ -1,13 +1,25 @@
-@CHARSET "UTF-8";
+@charset "UTF-8";
+
+.fleh-hint-max-xph,
+.fleh-hint-max-xphb,
+.fleh-hint-max-cph,
+.fleh-hint-max-cphb {
+	position: relative;
+	z-index: 999;
+	font-weight: bold;
+	background: #fff;
+	padding: 2px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	margin-bottom: -1px;
+}
 
 .fleh-hint-max-xph,
 .fleh-hint-max-xphb {
-	font-weight: bold;	
-	color: #202080;	
+	color: #202080;
 }
 
 .fleh-hint-max-cph,
 .fleh-hint-max-cphb {
-	font-weight: bold;	
 	color: #208020;
 }
