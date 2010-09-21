@@ -1,7 +1,7 @@
 {
   "name": "FL Enhanced",
   "description": "Fliplife Enhanced for Google Chrome",
-  "version": "0.6.0",
+  "version": "0.6.5",
   "icons": {
   	"16": "icon/16.png",
   	"48": "icon/48.png",
@@ -13,18 +13,10 @@
       	"http://fliplife.com/companies/*"
       ],
       "css": [
-      	"css/fleh.css"
+      	"fleh.css"
       ],
       "js": [
-        "js/jquery/jquery.js",
-        "js/jquery/class.js",
-        "js/jquery/cookie.js",
-        "js/fleh.js",
-        "js/fleh/autopilot.js",
-        "js/fleh/energy.js",
-        "js/fleh/legacy.js",
-        "js/fleh/tools.js",
-       	"js/init.js"
+        "fleh.js"
       ],
       "run_at": "document_idle"
     }
