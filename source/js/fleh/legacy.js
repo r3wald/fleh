@@ -24,8 +24,10 @@ function enhanceActivities(activities) {
 		if (e_hours) {
 			/* Werte ausrechnen */
 			h = e_hours.text().split('/');
-			hours_done = hours_total = h[0];
+			hours_done = 0;
+			hours_total = h[0];
 			if (h.length === 2) {
+				hours_done = h[0];
 				hours_total = h[1];
 			}
 			hours_rest = hours_total - hours_done;
