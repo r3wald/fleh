@@ -93,7 +93,8 @@ Fleh.Autopilot = Class.create(
 					form.submit();
 					
 				} else if (container.find('.unable').length) {
-					console.log('project done.');
+					console.log('project done or no energy.');
+					this.reloadAfter(35);
 					
 				} else if (container.find('.busy').length) {
 					console.log('you are busy.');
@@ -112,6 +113,7 @@ Fleh.Autopilot = Class.create(
 					
 				} else {
 					console.log('???');
+					this.reloadAfter(35);
 					
 				}			
 			}
