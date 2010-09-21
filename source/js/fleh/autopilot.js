@@ -11,6 +11,7 @@ Fleh.Autopilot = Class.create(
 				if (window.location.href.indexOf('autopilot=0')>-1) {
 					console.log('autopilot disabled via url');
 					jQuery.cookie('autopilot', '0');
+					this.enabled = true;
 				} else if (window.location.href.indexOf('autopilot=1')>-1) {
 					console.log('autopilot enabled via url');
 					jQuery.cookie('autopilot', '1');
