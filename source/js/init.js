@@ -1,3 +1,4 @@
+
 var fe = new Fleh.Energy();
 
 var fa = new Fleh.Autopilot();
@@ -7,5 +8,3 @@ var fa = new Fleh.Autopilot();
 //enhanceAllActivities();
 
 //markBestActivities();
-
-

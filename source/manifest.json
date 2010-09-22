@@ -1,27 +1,31 @@
 {
-  "name": "FL Enhanced",
-  "description": "Fliplife Enhanced for Google Chrome",
-  "version": "0.7.0",
-  "icons": {
-  	"16": "icon/16.png",
-  	"48": "icon/48.png",
-  	"128": "icon/128.png"
-  },
-  "content_scripts": [
-    {
-      "matches": [
-      	"http://fliplife.com/companies/*"
-      ],
-      "css": [
-      	"fleh.css"
-      ],
-      "js": [
-        "fleh.js"
-      ],
-      "run_at": "document_idle"
-    }
-  ],
-  "permissions": [
-	"http://fliplife.com/"
-  ]
+	"name": "FL Enhanced",
+	"description": "Fliplife Enhanced for Google Chrome",
+	"version": "0.7.1",
+	"icons": {
+		"16": "icon/16.png",
+		"48": "icon/48.png",
+		"128": "icon/128.png"
+	},
+	"content_scripts": [
+		{
+			"matches": [
+				"http://fliplife.com/companies/*"
+			],
+			"css": [
+				"css/fleh.css"
+			],
+			"js": [
+				"js/mootools/core.js",
+				"js/mootools/more.js",
+				"js/fleh.js",
+				"js/fleh/energy.js",
+				"js/init.js"
+			],
+			"run_at": "document_idle"
+		}
+	],
+	"permissions": [
+		"http://fliplife.com/"
+	]
 }
