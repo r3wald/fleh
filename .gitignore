@@ -2,3 +2,5 @@
 /.externalToolBuilders/
 /original/
 /.project
+/build/
+/releases/
