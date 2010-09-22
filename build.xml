@@ -1,46 +1,62 @@
 <project name="FLEH" default="build" basedir=".">
-	<taskdef name="grep" classname="ise.antelope.tasks.Find" />
-	<description>
-		'Fliplife Enhanced' build file
-    </description>
 
-	<property name="src" location="source" />
-	<property name="dist" location="releases" />
+	<taskdef name="grep" classname="ise.antelope.tasks.Find" />
+	
+	<description>
+		ant build file for 'Fliplife Enhanced' chrome/chromium extension.
+  </description>
 
 	<target name="init">
 		<tstamp />
 	</target>
 
-	<target name="build">
-<!--
-		<exec executable="bash" dir="${src}">
-			<arg value="-c" />
-			<arg value="cat js/fleh.js js/fleh/energy.js js/fleh/autopilot.js js/fleh/tool.js js/fleh/legacy.js js/init.js | yuicompressor -v -t js -o fleh.js" />
-		</exec>
-		<exec executable="yuicompressor" dir="${src}">
-			<arg value="-v" />
-			<arg value="css/fleh.css" />
-			<arg value="-o fleh.css" />
-		</exec>
- -->
-		<exec executable="bash" dir="${src}">
-			<arg value="-c" />
-			<arg value="cat js/fleh.js js/fleh/energy.js js/fleh/autopilot.js js/fleh/tool.js js/fleh/legacy.js js/init.js > fleh.js" />
-		</exec>
-		<exec executable="bash" dir="${src}">
-			<arg value="-c" />
-			<arg value="cat css/fleh.css > fleh.css" />
-		</exec>
-		<loadfile property="manifest" srcFile="${src}/manifest.json" />
-		<grep in="${manifest}" regex='version.\s*:\s*.([0-9\.]+)' group="1"
-			property="version" />
-		<property name="file" value="${dist}/fleh-${version}.zip" />
+	<target name="release" depends="build,compress">
+		<!-- load manifest and search for version value -->
+		<loadfile property="manifest" srcFile="build/manifest.json" />
+		<grep in="${manifest}" regex='version.\s*:\s*.([0-9\.]+)' group="1" property="version" />
+		<!-- create file name for zip file -->
+		<property name="file" value="releases/fleh-${version}.zip" />
+		<!-- check for existing file -->
 		<fail message="release ${version} already exists">
 			<condition>
 				<available file="${file}" type="file" />
 			</condition>
 		</fail>
-		<zip destfile="${file}" basedir="${src}" filesonly="true" update="false" includes="*" />
+		<!-- create zip file -->
+		<zip destfile="${file}" basedir="build" filesonly="true" update="false" includes="manifest.json,fleh.js,fleh.css,icon/**" />
+	</target>
+	
+	<target name="compress" depends="build">
+		<!-- compress scripts -->
+		<exec executable="yuicompressor" dir="build">
+			<arg value="--type js" />
+			<arg value="fleh.js" />
+			<arg value="-o fleh.js" />
+		</exec>
+		<!-- compress styles -->
+		<exec executable="yuicompressor" dir="build">
+			<arg value="--type css" />
+			<arg value="fleh.css" />
+			<arg value="-o fleh.css" />
+		</exec>		
+	</target>
+	
+	<target name="build">
+		<!-- merge scripts -->
+		<concat destfile="build/fleh.js">
+			<fileset	dir="source/js/mootools" />
+			<file				file="source/js/fleh.js" />
+			<fileset	dir="source/js/fleh"/>
+			<file				file="source/js/init.js" />
+		</concat>
+		<!-- copy manifest -->
+		<copy tofile="build/manifest.json" file="source/manifest.json" />
+		<!-- copy styles -->
+		<copy tofile="build/fleh.css" file="source/css/fleh.css" />
+		<!-- copy icons -->
+		<copy todir="build/icon">
+			<fileset dir="source/icon"/>
+		</copy>
 	</target>
 
 </project>
