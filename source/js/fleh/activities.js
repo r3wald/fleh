@@ -1,9 +1,9 @@
-Fleh.Activities = Class.create(
+Fleh.Activities = new Class(
 		{
 			max: null,
 			current: null,
 			enabled: false,
-			init: function()
+			initialize: function()
 			{
 				if (window.location.href.indexOf('autopilot=0')>-1) {
 					console.log('autopilot disabled via url');

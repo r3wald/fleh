@@ -1,4 +1,4 @@
-Fleh.Tool = Class.create(
+Fleh.Tool = new Class(
 		{
 			
 			formatTime: function(minutes) {

@@ -1,4 +1,4 @@
-Fleh.Autopilot = Class.create(
+Fleh.Autopilot = new Class(
 		{
 			max: null,
 			
@@ -6,7 +6,7 @@ Fleh.Autopilot = Class.create(
 			
 			enabled: false,
 			
-			init: function()
+			initialize: function()
 			{
 				if (window.location.href.indexOf('autopilot=0')>-1) {
 					console.log('autopilot disabled via url');
@@ -23,15 +23,19 @@ Fleh.Autopilot = Class.create(
 				if (!this.enabled) {
 					return;
 				}
-				var match;
-				if (match = window.location.href.match(/^http:\/\/fliplife.com\/companies\/(\d)$/)) {
+				console.log('url: '+window.location.href);
+				if (window.location.href.match(/^http:\/\/fliplife.com\/companies\/(\d+)(\?.+)?$/)) {
 					// übersicht activities
 					// aktiven Job finden und dahin wechseln
+					console.log('list of activities');
 					this.findCurrentActivityAndSwitch();
 					
-				} else if (match = window.location.href.match(/^http:\/\/fliplife.com\/companies\/(\d)\/projects\/(\d+)$/)) {
+				} else if (window.location.href.match(/^http:\/\/fliplife.com\/companies\/(\d+)\/projects\/(\d+)(\?.+)?$/)) {
 					// activity
+					console.log('activity selected');
 					this.handleActivity();
+				} else {
+					console.log('no match :-(');
 				}
 			},
 			
