@@ -1,7 +1,7 @@
 {
   "name": "FL Enhanced",
   "description": "Fliplife Enhanced for Google Chrome",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "icons": {
   	"16": "icon/16.png",
   	"48": "icon/48.png",
@@ -22,6 +22,6 @@
     }
   ],
   "permissions": [
-	"http://fliplife.com/"
+			"http://fliplife.com/"
   ]
 }
