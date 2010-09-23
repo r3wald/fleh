@@ -139,7 +139,7 @@ Fleh.Worker.Career = new Class({
 			text += ' + ' + Fleh.Tools.formatTime(10.0 * hours_rest) + ' Erholung';
 
 			if (this.fleh.fv.getCurrentEnergy() > 0) {
-				text += ' - ' + formatTime(2.0*this.fleh.fv.getCurrentEnergy()) + ' Restenergie';
+				text += ' - ' + Fleh.Tools.formatTime(2.0*this.fleh.fv.getCurrentEnergy()) + ' Restenergie';
 			}
 
 			e_hours.set('title',text);
