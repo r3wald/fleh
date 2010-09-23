@@ -1,10 +1,10 @@
 <project name="FLEH" default="build" basedir=".">
 
 	<taskdef name="grep" classname="ise.antelope.tasks.Find" />
-	
+
 	<description>
 		ant build file for 'Fliplife Enhanced' chrome/chromium extension.
-  </description>
+	</description>
 
 	<target name="init">
 		<tstamp />
@@ -25,7 +25,7 @@
 		<!-- create zip file -->
 		<zip destfile="${file}" basedir="build" filesonly="true" update="false" includes="manifest.json,fleh.js,fleh.css,icon/**" />
 	</target>
-	
+
 	<target name="compress" depends="build">
 		<!-- compress scripts -->
 		<exec executable="yuicompressor" dir="build">
@@ -38,16 +38,16 @@
 			<arg value="--type css" />
 			<arg value="fleh.css" />
 			<arg value="-o fleh.css" />
-		</exec>		
+		</exec>
 	</target>
-	
+
 	<target name="build">
 		<!-- merge scripts -->
 		<concat destfile="build/fleh.js">
-			<fileset	dir="source/js/mootools" />
-			<file				file="source/js/fleh.js" />
-			<fileset	dir="source/js/fleh"/>
-			<file				file="source/js/init.js" />
+			<fileset dir="source/js/mootools" />
+			<file file="source/js/fleh.js" />
+			<fileset dir="source/js/fleh"/>
+			<file file="source/js/init.js" />
 		</concat>
 		<!-- copy manifest -->
 		<copy tofile="build/manifest.json" file="source/manifest.json" />

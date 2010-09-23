@@ -1,5 +1,29 @@
 @charset "UTF-8";
 
+#fleh {
+	position: absolute;
+	top: .5em;
+	left: 25em;
+	z-index: 999;
+	background: rgba(255, 255, 255, .8);
+	width: 30em;
+	padding: 5px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+}
+
+#fleh-autopilot {
+	margin-bottom: 5px;
+}
+
+#fleh-log {
+	min-height: 3em;
+	max-height: 5em;
+	padding: 5px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+}
+
 .fleh-hint-max-xph,
 .fleh-hint-max-xphb,
 .fleh-hint-max-cph,

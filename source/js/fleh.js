@@ -1,17 +1,45 @@
+
 var Fleh = new Class({
-	
+
 	id: null,
 	autopilot: null,
 	fv: null,
-	
-	initialize: function() {
+
+	initialize: function(){
 		this.fv = new Fleh.Values();
 		this.checkforAutopilot();
 		this.updateEnergyBar();
 		this.checkUrl();
+		this.createControls();
 	},
 
-	checkforAutopilot: function() {
+	createControls: function(){
+		var hook = $('header');
+		var fleh = new Element('div', {
+			'id': 'fleh'
+		});
+		var autopilot = new Element('div', {
+			'id': 'fleh-autopilot',
+			'html': 'Autopilot: <button>Anschalten</button>'
+		});
+		var log = new Element('div', {
+			'id': 'fleh-log'
+		});
+		fleh.grab(autopilot).grab(log);
+		hook.grab(fleh);
+		this.log = log;
+		this.logMessage('start');
+	},
+
+	logMessage: function(text){
+		var time = new Date().format('%H:%M:%S');
+		var msg = new Element('p', {
+			'text': '[' + time + ']: ' + text
+		});
+		this.log.grab(msg);
+	},
+
+	checkforAutopilot: function(){
 		this.autopilot = false;
 		if (window.location.href.indexOf('autopilot=0')>-1) {
 			console.log('autopilot disabled via url');
@@ -28,11 +56,10 @@ var Fleh = new Class({
 			console.log('autopilot disabled');
 		}
 	},
-	
-	updateEnergyBar: function() {
+
+	updateEnergyBar: function(){
 		var e,full,time,text;
-		if (this.fv.getMaxEnergy()>this.fv.getCurrentEnergy())
-		{
+		if (this.fv.getMaxEnergy()>this.fv.getCurrentEnergy()) {
 			e = $('energyBar');
 			full = new Date();
 			full.setTime(full.getTime() + 1000 * 60 * 10 * (this.fv.getMaxEnergy()-this.fv.getCurrentEnergy()));
@@ -43,8 +70,8 @@ var Fleh = new Class({
 			e.set('title', text);
 		}
 	},
-	
-	checkUrl: function() {
+
+	checkUrl: function(){
 		var url, worker;
 		url = window.location.protocol + '//' + window.location.hostname + window.location.pathname;
 		if (url==this.fv.getHomeUrl()) {
@@ -69,5 +96,5 @@ var Fleh = new Class({
 			}
 		}
 	}
-	
+
 });
