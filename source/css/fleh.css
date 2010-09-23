@@ -13,12 +13,42 @@
 }
 
 #fleh-autopilot {
+	text-align: right;
 	margin-bottom: 5px;
 }
 
+#fleh-autopilot button {
+	cursor: pointer;
+	border-radius: 5px;
+	border: 1px solid;
+}
+
+#fleh-autopilot .fleh-switch-on {
+	color: #3ea700;
+	background: #f3fedd;
+	border-color: #dcefb6;
+}
+
+#fleh-autopilot .fleh-switch-on:hover,
+#fleh-autopilot .fleh-switch-on:focus {
+	border-color: #3ea700;
+}
+
+#fleh-autopilot .fleh-switch-off {
+	color: #e91c24;
+	background: #fff7e1;
+	border-color: #ffe0b0;
+}
+
+#fleh-autopilot .fleh-switch-off:hover,
+#fleh-autopilot .fleh-switch-off:focus {
+	border-color: #e91c24;
+}
+
 #fleh-log {
+	overflow: auto;
 	min-height: 3em;
-	max-height: 5em;
+	max-height: 4.5em;
 	padding: 5px;
 	border-radius: 5px;
 	border: 1px solid #ddd;

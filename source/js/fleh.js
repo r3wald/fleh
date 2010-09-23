@@ -20,7 +20,7 @@ var Fleh = new Class({
 		});
 		var autopilot = new Element('div', {
 			'id': 'fleh-autopilot',
-			'html': 'Autopilot: <button>Anschalten</button>'
+			'html': 'Autopilot: <button class="fleh-switch-on">Anschalten</button>'
 		});
 		var log = new Element('div', {
 			'id': 'fleh-log'
@@ -28,7 +28,7 @@ var Fleh = new Class({
 		fleh.grab(autopilot).grab(log);
 		hook.grab(fleh);
 		this.log = log;
-		this.logMessage('start');
+		this.logMessage('Controls created');
 	},
 
 	logMessage: function(text){
