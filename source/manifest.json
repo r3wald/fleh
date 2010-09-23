@@ -10,7 +10,7 @@
   "content_scripts": [
     {
       "matches": [
-      	"http://fliplife.com/companies/*"
+      	"http://fliplife.com/*"
       ],
       "css": [
       	"fleh.css"
