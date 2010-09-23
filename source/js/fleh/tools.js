@@ -1,4 +1,25 @@
 Fleh.Tools = {
+		
+		load: function(url)
+		{
+			window.location.href=url;
+		},
+		
+		reload: function()
+		{
+			this.load(window.location.href);
+		},
+		
+		reloadAfter: function(seconds)
+		{
+			var self = this;
+			setTimeout(
+				function() {
+					self.reload();
+				},
+				1000 * seconds
+			);
+		},
 	
 	formatTime: function(minutes) {
 		var result, hours;
