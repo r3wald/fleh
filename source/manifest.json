@@ -22,6 +22,6 @@
     }
   ],
   "permissions": [
-			"http://fliplife.com/"
+    "http://fliplife.com/"
   ]
 }
