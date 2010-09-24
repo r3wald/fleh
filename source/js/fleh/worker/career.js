@@ -51,20 +51,43 @@ Fleh.Worker.Career = new Class({
 	 * @todo: no open jobs -> choose available job and start working
 	 */
 	autopilot: function() {
-		if (!this.jobs_open.length) {
+		if (this.jobs_open.length) {
+			this.resumeJob();
+		} else if (this.jobs_available.length) {
+			this.startJob();
+		} else {
 			this.fleh.logMessage('keine offenen Jobs. Seite wird nach 30s neu geladen.');
 			Fleh.Tools.reloadAfter(30);
-			return;
 		}
-		var current = this.jobs_open[0];
-		link = current.getElement('div.proceed a');
+	},
+
+	startJob: function() {
+		console.log(this.jobs_available);
+		var jobs = [];
+		this.jobs_available.each(function(element,index) {
+			
+		});
+	},
+	
+	resumeJob: function() {
+		var next_job = this.jobs_open[0];
+		//console.log('first:',next_job);
+		this.jobs_open.each(function (element) {
+			if (element.hasChild('.working')) {
+				//console.log('working:',element);
+				next_job = element;
+				break;
+			}
+		});		
+		//console.log('next:',next_job);
+		link = next_job.getElement('div.proceed a');
 		if (!link) {
 			// Fehler, keinen Link gefunden
 			return;
 		}
 		Fleh.Tools.load(link.href);
 	},
-
+	
 	markBestActivity: function(elements) {
 		var max_xph,max_xph_index,max_cph,max_cph_index,max_xphb,max_xphb_index,max_cphb,max_cphb_index;
 		max_cph_index = max_xph_index = max_cphb_index = max_xphb_index = 0;
