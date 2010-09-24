@@ -10,7 +10,7 @@
 		<tstamp />
 	</target>
 
-	<target name="release" depends="build,compress">
+	<target name="release" depends="build">
 		<!-- load manifest and search for version value -->
 		<loadfile property="manifest" srcFile="build/manifest.json" />
 		<grep in="${manifest}" regex='version.\s*:\s*.([0-9\.]+)' group="1" property="version" />
@@ -43,14 +43,16 @@
 
 	<target name="build">
 		<!-- merge scripts -->
-		<concat destfile="build/fleh.js">
+		<concat destfile="build/mootools.js">
 			<fileset dir="source/js/mootools" />
+		</concat>
+		<concat destfile="build/fleh.js">
 			<file file="source/js/fleh.js" />
 			<fileset dir="source/js/fleh"/>
 			<file file="source/js/init.js" />
 		</concat>
 		<!-- copy manifest -->
-		<copy tofile="build/manifest.json" file="source/manifest.json-release" />
+		<copy tofile="build/manifest.json" file="source/manifest.json" />
 		<!-- copy styles -->
 		<copy tofile="build/fleh.css" file="source/css/fleh.css" />
 		<!-- copy icons -->
