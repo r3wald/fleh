@@ -14,8 +14,11 @@ Fleh.Worker = new Class({
 	
 	updateEnergyBar: function(){
 		var e,full,time,text;
-		if (this.fleh.fv.getMaxEnergy()>this.fleh.fv.getCurrentEnergy()) {
-			e = $('energyBar');
+		e = $('energyBar');
+		if (this.fleh.fv.getMaxEnergy()==this.fleh.fv.getCurrentEnergy()) {
+			text = "volle Energie";
+			this.fleh.logMessage(text);
+		} else if (this.fleh.fv.getMaxEnergy()>this.fleh.fv.getCurrentEnergy()) {
 			full = new Date();
 			full.setTime(full.getTime() + 1000 * 60 * 10 * (this.fleh.fv.getMaxEnergy()-this.fleh.fv.getCurrentEnergy()));
 			time = full.getHours() + ":" + (full.getMinutes()>9?"":0) + full.getMinutes();
