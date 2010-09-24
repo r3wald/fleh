@@ -43,16 +43,14 @@
 
 	<target name="build">
 		<!-- merge scripts -->
-		<concat destfile="build/mootools.js">
-			<fileset dir="source/js/mootools" />
-		</concat>
 		<concat destfile="build/fleh.js">
+			<fileset dir="source/js/mootools" />
 			<file file="source/js/fleh.js" />
 			<fileset dir="source/js/fleh"/>
 			<file file="source/js/init.js" />
 		</concat>
 		<!-- copy manifest -->
-		<copy tofile="build/manifest.json" file="source/manifest.json" />
+		<copy tofile="build/manifest.json" file="source/manifest.json-release" />
 		<!-- copy styles -->
 		<copy tofile="build/fleh.css" file="source/css/fleh.css" />
 		<!-- copy icons -->
