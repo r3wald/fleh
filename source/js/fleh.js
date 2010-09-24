@@ -1,32 +1,29 @@
 
 var Fleh = new Class({
-	
-	/**
-	 * @var array
-	 */
-	Implements: [Events],
+
+	Implements: Events,
 
 	/**
 	 * @var Fleh.Autopilot
 	 */
 	fa: null,
-	
+
 	/**
 	 * @var Fleh.Values
 	 */
 	fv: null,
-	
+
 	/**
 	 * @var Div
 	 */
 	log: null,
-	
+
 	/**
 	 * @var Fleh.Worker
 	 */
 	worker: null,
 
-	initialize: function() {
+	initialize: function(){
 		this.fv = new Fleh.Values(this);
 		this.fa = new Fleh.Autopilot(this);
 		this.createControls();
@@ -35,7 +32,7 @@ var Fleh = new Class({
 		this.startAutopilot();
 	},
 
-	createControls: function() {
+	createControls: function(){
 		var hook, fleh;
 		hook = $('header');
 		fleh = new Element('div', {
@@ -56,6 +53,8 @@ var Fleh = new Class({
 		});
 		if (this.log) {
 			this.log.grab(msg);
+			var size = this.log.getScrollSize();
+			this.log.scrollTo(size.x, size.y);
 		}
 	},
 
@@ -65,25 +64,25 @@ var Fleh = new Class({
 		url_project = '^' + this.fv.getCareerUrl() + '/projects/[0-9]+$';
 		if (url_current==this.fv.getHomeUrl()) {
 			this.worker = new Fleh.Worker.Home(this);
-			
+
 		} else if (url_current==this.fv.getCareerUrl()) {
 			this.worker = new Fleh.Worker.Career(this);
-			
+
 		} else if (url_current==this.fv.getSparetimeUrl()) {
 			this.worker = new Fleh.Worker.Sparetime(this);
-			
+
 		} else if (url_current==this.fv.getShoppingUrl()) {
 			this.worker = new Fleh.Worker.Shopping(this);
-			
+
 		} else if (url_current.match(url_project)) {
 			this.worker = new Fleh.Worker.Project(this);
-			
+
 		} else {
 			console.log('no match :-( (' + url_current + ')');
 		}
 	},
-	
-	startWorker: function() {
+
+	startWorker: function(){
 		if (!this.worker) {
 			console.log('no worker set');
 			return;
@@ -94,8 +93,8 @@ var Fleh = new Class({
 		}
 		this.worker.enhance();
 	},
-	
-	startAutopilot: function() {
+
+	startAutopilot: function(){
 		if (!this.worker) {
 			console.log('no worker set');
 			return;

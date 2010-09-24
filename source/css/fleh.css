@@ -3,13 +3,14 @@
 #fleh {
 	position: absolute;
 	top: .5em;
-	left: 25em;
+	left: 50%;
 	z-index: 999;
 	background: rgba(255, 255, 255, .8);
 	width: 30em;
 	padding: 5px;
 	border-radius: 5px;
 	border: 1px solid #ddd;
+	margin-left: -15em;
 }
 
 #fleh-autopilot {
@@ -47,8 +48,8 @@
 
 #fleh-log {
 	overflow: auto;
-	min-height: 3em;
-	max-height: 4.5em;
+	min-height: 2.3em;
+	max-height: 4.7em;
 	padding: 5px;
 	border-radius: 5px;
 	border: 1px solid #ddd;

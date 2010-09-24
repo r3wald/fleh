@@ -1,14 +1,15 @@
+
 Fleh.Values = new Class({
-	
+
 	/**
 	 * @var hash
 	 */
 	values: {},
-	
-	initialize: function() {
-		
+
+	initialize: function(){
+
 		var container, element, match;
-		
+
 		container = $('navigation');
 		element = container.getElement('.home a');
 		if (element) {
@@ -28,7 +29,7 @@ Fleh.Values = new Class({
 		if (element) {
 			this.values.url_shopping = element.href;
 		}
-		
+
 		container = $('money');
 		element = container.getElement('.cash');
 		if (element) {
@@ -38,93 +39,93 @@ Fleh.Values = new Class({
 		if (element) {
 			this.values.credits = parseInt(element.get('text').replace('.',''));
 		}
-		
+
 		element = $('energyBar');
 		this.values.energy_max = parseInt(element.get('data-max'));
 		this.values.energy_current = parseInt(element.get('data-value'));
-		
+
 		// console.log(this.values);
 	},
-	
+
 	/**
 	 * link to my home
-	 * 
+	 *
 	 * @return string
 	 */
-	getHomeUrl: function() {
+	getHomeUrl: function(){
 		return this.values.url_home;
 	},
-	
+
 	/**
 	 * link to my career page (list of activities)
-	 * 
+	 *
 	 * @return string
 	 */
-	getCareerUrl: function() {
+	getCareerUrl: function(){
 		return this.values.url_career;
 	},
-	
+
 	/**
 	 * link to sparetime page (parties, ...)
-	 * 
+	 *
 	 * @return string
 	 */
-	getSparetimeUrl: function() {
+	getSparetimeUrl: function(){
 		return this.values.url_sparetime;
 	},
-	
+
 	/**
 	 * link to shopping page
-	 * 
+	 *
 	 * @return string
 	 */
-	getShoppingUrl: function() {
+	getShoppingUrl: function(){
 		return this.values.url_shopping;
 	},
 
 	/**
 	 * maximum number of energy units
-	 * 
+	 *
 	 * @return integer
 	 */
-	getCurrentEnergy: function() {
+	getCurrentEnergy: function(){
 		return this.values.energy_current;
 	},
-	
+
 	/**
 	 * current number of energy units
-	 * 
+	 *
 	 * @return integer
 	 */
-	getMaxEnergy: function() {
+	getMaxEnergy: function(){
 		return this.values.energy_max;
 	},
-	
+
 	/**
 	 * my money
-	 * 
+	 *
 	 * @return integer
 	 */
-	getCash: function() {
+	getCash: function(){
 		return this.values.cash;
 	},
-	
+
 	/**
 	 * my credits
-	 * 
+	 *
 	 * @return integer
 	 */
-	getCredits: function() {
+	getCredits: function(){
 		return this.values.credits;
 	},
-	
+
 	/**
 	 * my id
-	 * 
+	 *
 	 * @return integer
 	 */
-	getMyId: function() {
+	getMyId: function(){
 		return this.values.id;
 	}
-	
+
 });

@@ -1,3 +1,4 @@
+
 Fleh.Worker.Career = new Class({
 
 	Extends: Fleh.Worker,
@@ -6,23 +7,23 @@ Fleh.Worker.Career = new Class({
 	 * @var array
 	 */
 	jobs_open: null,
-	
+
 	/**
 	 * @var array
 	 */
 	jobs_done: null,
-	
+
 	/**
 	 * @var array
 	 */
 	jobs_available: null,
-	
+
 	/**
 	 * @var array
 	 */
 	jobs_locked: null,
-	
-	initialize: function(fleh) {
+
+	initialize: function(fleh){
 		this.parent(fleh);
 		console.log('Fleh.Worker.Career');
 		this.jobs_done = $$('ul.activities div.deadlineReached').getParent();
@@ -31,18 +32,18 @@ Fleh.Worker.Career = new Class({
 		this.jobs_available = $$('ul.activities').getLast().getElements('li[class!="locked"]');
 	},
 
-	enhance: function() {
+	enhance: function(){
 		this.parent();
 		var self=this;
 		this.jobs_available.each(
-				function(element) {
-					self.enhanceActivity(element);
-				}
+			function(element){
+				self.enhanceActivity(element);
+			}
 		);
 		this.jobs_open.each(
-				function(element) {
-					self.enhanceActivity(element);
-				}
+			function(element){
+				self.enhanceActivity(element);
+			}
 		);
 		this.markBestActivity(this.jobs_available);
 	},
@@ -50,7 +51,7 @@ Fleh.Worker.Career = new Class({
 	/**
 	 * @todo: no open jobs -> choose available job and start working
 	 */
-	autopilot: function() {
+	autopilot: function(){
 		if (!this.jobs_open.length) {
 			this.fleh.logMessage('keine offenen Jobs. Seite wird nach 30s neu geladen.');
 			Fleh.Tools.reloadAfter(30);
@@ -65,12 +66,12 @@ Fleh.Worker.Career = new Class({
 		Fleh.Tools.load(link.href);
 	},
 
-	markBestActivity: function(elements) {
+	markBestActivity: function(elements){
 		var max_xph,max_xph_index,max_cph,max_cph_index,max_xphb,max_xphb_index,max_cphb,max_cphb_index;
 		max_cph_index = max_xph_index = max_cphb_index = max_xphb_index = 0;
 		max_cph = max_xph = max_cphb = max_xphb = 0;
 		/* loop though activities */
-		$each(elements,function (element, index) {
+		$each(elements,function(element, index){
 			if (element.retrieve('xph') > max_xph) {
 				max_xph_index = index;
 				max_xph = element.retrieve('xph');
@@ -113,17 +114,17 @@ Fleh.Worker.Career = new Class({
 			}).inject(elements[max_xphb_index]);
 		}
 	},
-	
-	enhanceActivity: function(element) {
+
+	enhanceActivity: function(element){
 		var e_xp, e_cash, e_hours, e_bonus,
 			hours_done, hours_rest, hours_total, bonus,
 			factor, xph, cph, xphb, cphb, h, text;
-		
+
 		e_xp	= element.getElement('.facts .xp');
 		e_cash	= element.getElement('.facts .cash');
 		e_hours	= element.getElement('.facts .hours');
 		e_bonus	= element.getElement('.facts .bonus');
-		
+
 		if (e_hours) {
 			/* calculate values */
 			h = e_hours.get('text').split('/');
@@ -141,15 +142,15 @@ Fleh.Worker.Career = new Class({
 			xphb = factor * e_xp.get('text')/hours_total;
 			cphb = factor * e_cash.get('text')/hours_total;
 			/* store values for later */
-			element.store('xph',xph);
-			element.store('xphb',xphb);
-			element.store('cph',cph);
-			element.store('cphb',cphb);
+			element.store('xph', xph);
+			element.store('xphb', xphb);
+			element.store('cph', cph);
+			element.store('cphb', cphb);
 			/* set title attribute */
-			e_xp.set('title',xph.toFixed(2) + 'XP/h');
-			e_cash.set('title',cph.toFixed(2) + '$/h');
-			e_bonus.set('title',xphb.toFixed(2) + 'XP/h - ' + cphb.toFixed(2) + '$/h');
-			
+			e_xp.set('title', xph.toFixed(2) + 'XP/h');
+			e_cash.set('title', cph.toFixed(2) + '$/h');
+			e_bonus.set('title', xphb.toFixed(2) + 'XP/h - ' + cphb.toFixed(2) + '$/h');
+
 			text = 'Restzeit: ' + Fleh.Tools.formatTime(12.0 * hours_rest - 2.0 * this.fleh.fv.getCurrentEnergy());
 			text += ' = ' + Fleh.Tools.formatTime(2.0 * hours_rest) + ' Arbeit';
 			text += ' + ' + Fleh.Tools.formatTime(10.0 * hours_rest) + ' Erholung';
