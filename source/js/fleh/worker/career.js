@@ -52,13 +52,36 @@ Fleh.Worker.Career = new Class({
 	 * @todo: no open jobs -> choose available job and start working
 	 */
 	autopilot: function(){
-		if (!this.jobs_open.length) {
+		if (this.jobs_open.length) {
+			this.resumeJob();
+		} else if (this.jobs_available.length) {
+			this.startJob();
+		} else {
 			this.fleh.logMessage('keine offenen Jobs. Seite wird nach 30s neu geladen.');
 			Fleh.Tools.reloadAfter(30);
-			return;
 		}
-		var current = this.jobs_open[0];
-		link = current.getElement('div.proceed a');
+	},
+
+	startJob: function() {
+		console.log(this.jobs_available);
+		var jobs = [];
+		this.jobs_available.each(function(element,index) {
+
+		});
+	},
+
+	resumeJob: function() {
+		var next_job = this.jobs_open[0];
+		//console.log('first:',next_job);
+		this.jobs_open.each(function (element) {
+			if (element.hasChild('.working')) {
+				//console.log('working:',element);
+				next_job = element;
+				break;
+			}
+		});
+		//console.log('next:',next_job);
+		link = next_job.getElement('div.proceed a');
 		if (!link) {
 			// Fehler, keinen Link gefunden
 			return;
@@ -67,7 +90,8 @@ Fleh.Worker.Career = new Class({
 	},
 
 	markBestActivity: function(elements){
-		var max_xph,max_xph_index,max_cph,max_cph_index,max_xphb,max_xphb_index,max_cphb,max_cphb_index;
+		var max_xph, max_xph_index, max_cph, max_cph_index, max_xphb,
+			max_xphb_index, max_cphb, max_cphb_index;
 		max_cph_index = max_xph_index = max_cphb_index = max_xphb_index = 0;
 		max_cph = max_xph = max_cphb = max_xphb = 0;
 		/* loop though activities */
@@ -91,26 +115,26 @@ Fleh.Worker.Career = new Class({
 	    });
 		/* add info */
 		new Element('div', {
-			"class": "fleh-hint-max-cph",
-			"html": max_cph.toFixed(2) + "$/h"
+			'class': 'fleh-hint-max-cph',
+			'html': max_cph.toFixed(2) + '$/h'
 		}).inject(elements[max_cph_index]);
 
 		new Element('div', {
-			"class": "fleh-hint-max-xph",
-			"html": max_xph.toFixed(2) + "XP/h"
+			'class': 'fleh-hint-max-xph',
+			'html': max_xph.toFixed(2) + 'XP/h'
 		}).inject(elements[max_xph_index]);
 
 		if (max_cphb > max_cph) {
 			new Element('div', {
-				"class": "fleh-hint-max-cphb",
-				"html": "Risiko! " + max_cphb.toFixed(2) + "$/h"
+				'class': 'fleh-hint-max-cphb',
+				'html': 'Risiko! ' + max_cphb.toFixed(2) + '$/h'
 			}).inject(elements[max_cphb_index]);
 		}
 
 		if (max_xphb > max_xph) {
 			new Element('div', {
-				"class": "fleh-hint-max-xphb",
-				"html": "Risiko! " + max_xphb.toFixed(2) + "XP/h"
+				'class': 'fleh-hint-max-xphb',
+				'html': 'Risiko! ' + max_xphb.toFixed(2) + 'XP/h'
 			}).inject(elements[max_xphb_index]);
 		}
 	},

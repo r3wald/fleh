@@ -10,7 +10,7 @@
 		<tstamp />
 	</target>
 
-	<target name="release" depends="build,compress">
+	<target name="release" depends="build">
 		<!-- load manifest and search for version value -->
 		<loadfile property="manifest" srcFile="build/manifest.json" />
 		<grep in="${manifest}" regex='version.\s*:\s*.([0-9\.]+)' group="1" property="version" />
