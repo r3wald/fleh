@@ -1,34 +1,52 @@
 
 var Fleh = new Class({
+	
+	/**
+	 * @var array
+	 */
+	Implements: [Events],
 
-	id: null,
-	autopilot: null,
+	/**
+	 * @var Fleh.Autopilot
+	 */
+	fa: null,
+	
+	/**
+	 * @var Fleh.Values
+	 */
 	fv: null,
+	
+	/**
+	 * @var Div
+	 */
+	log: null,
+	
+	/**
+	 * @var Fleh.Worker
+	 */
+	worker: null,
 
-	initialize: function(){
-		this.fv = new Fleh.Values();
-		this.checkforAutopilot();
-		this.updateEnergyBar();
-		this.checkUrl();
+	initialize: function() {
+		this.fv = new Fleh.Values(this);
+		this.fa = new Fleh.Autopilot(this);
 		this.createControls();
+		this.setWorkerForCurrentUrl();
+		this.startWorker();
+		this.startAutopilot();
 	},
 
-	createControls: function(){
-		var hook = $('header');
-		var fleh = new Element('div', {
+	createControls: function() {
+		var hook, fleh;
+		hook = $('header');
+		fleh = new Element('div', {
 			'id': 'fleh'
 		});
-		var autopilot = new Element('div', {
-			'id': 'fleh-autopilot',
-			'html': 'Autopilot: <button class="fleh-switch-on">Anschalten</button>'
-		});
-		var log = new Element('div', {
+		this.log = new Element('div', {
 			'id': 'fleh-log'
 		});
-		fleh.grab(autopilot).grab(log);
+		fleh.grab(this.fa.control);
+		fleh.grab(this.log);
 		hook.grab(fleh);
-		this.log = log;
-		this.logMessage('Controls created');
 	},
 
 	logMessage: function(text){
@@ -36,65 +54,61 @@ var Fleh = new Class({
 		var msg = new Element('p', {
 			'text': '[' + time + ']: ' + text
 		});
-		this.log.grab(msg);
+		if (this.log) {
+			this.log.grab(msg);
+		}
 	},
 
-	checkforAutopilot: function(){
-		this.autopilot = false;
-		if (window.location.href.indexOf('autopilot=0')>-1) {
-			console.log('autopilot disabled via url');
-			Cookie.write('autopilot', '0');
-			this.autopilot = true;
-		} else if (window.location.href.indexOf('autopilot=1')>-1) {
-			console.log('autopilot enabled via url');
-			Cookie.write('autopilot', '1');
-			this.autopilot = true;
-		} else if (Cookie.read('autopilot')==1) {
-			console.log('autopilot enabled via cookie');
-			this.autopilot = true;
+	setWorkerForCurrentUrl: function(){
+		var url_current, url_project;
+		url_current = window.location.protocol + '//' + window.location.hostname + window.location.pathname;
+		url_project = '^' + this.fv.getCareerUrl() + '/projects/[0-9]+$';
+		if (url_current==this.fv.getHomeUrl()) {
+			this.worker = new Fleh.Worker.Home(this);
+			
+		} else if (url_current==this.fv.getCareerUrl()) {
+			this.worker = new Fleh.Worker.Career(this);
+			
+		} else if (url_current==this.fv.getSparetimeUrl()) {
+			this.worker = new Fleh.Worker.Sparetime(this);
+			
+		} else if (url_current==this.fv.getShoppingUrl()) {
+			this.worker = new Fleh.Worker.Shopping(this);
+			
+		} else if (url_current.match(url_project)) {
+			this.worker = new Fleh.Worker.Project(this);
+			
 		} else {
-			console.log('autopilot disabled');
+			console.log('no match :-( (' + url_current + ')');
 		}
 	},
-
-	updateEnergyBar: function(){
-		var e,full,time,text;
-		if (this.fv.getMaxEnergy()>this.fv.getCurrentEnergy()) {
-			e = $('energyBar');
-			full = new Date();
-			full.setTime(full.getTime() + 1000 * 60 * 10 * (this.fv.getMaxEnergy()-this.fv.getCurrentEnergy()));
-			time = full.getHours() + ":" + (full.getMinutes()>9?"":0) + full.getMinutes();
-			text = "Energie: " + this.fv.getCurrentEnergy() + " von " + this.fv.getMaxEnergy() + "\n";
-			text += e.get('title') + "\n";
-			text += "volle Energie um " + time;
-			e.set('title', text);
+	
+	startWorker: function() {
+		if (!this.worker) {
+			console.log('no worker set');
+			return;
 		}
+		if (!this.worker.enhance) {
+			console.log('no enhancements defined for worker');
+			return;
+		}
+		this.worker.enhance();
 	},
-
-	checkUrl: function(){
-		var url, worker;
-		url = window.location.protocol + '//' + window.location.hostname + window.location.pathname;
-		if (url==this.fv.getHomeUrl()) {
-			console.log('@home');
-		} else if (url==this.fv.getCareerUrl()) {
-			worker = new Fleh.Worker.Career(this);
-		} else if (url==this.fv.getSparetimeUrl()) {
-			console.log('@sparetime');
-		} else if (url==this.fv.getShoppingUrl()) {
-			console.log('@shopping');
-		} else if (url.match(/^http:\/\/fliplife.com\/companies\/(\d+)\/projects\/(\d+)$/)) {
-			worker = new Fleh.Worker.Project(this);
-		} else {
-			console.log('no match :-( (' + url + ')');
+	
+	startAutopilot: function() {
+		if (!this.worker) {
+			console.log('no worker set');
+			return;
 		}
-		if (worker) {
-			if (worker.enhance) {
-				worker.enhance();
-			}
-			if (this.autopilot && worker.autopilot) {
-				worker.autopilot();
-			}
+		if (!this.worker.autopilot) {
+			console.log('no autopilot defined for worker');
+			return;
 		}
+		if (!this.fa.isEnabled()) {
+			console.log('autopilot not enabled');
+			return;
+		}
+		this.worker.autopilot();
 	}
 
 });

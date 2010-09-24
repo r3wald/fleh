@@ -1,77 +1,130 @@
 Fleh.Values = new Class({
 	
-	energy_max: null,
-	energy_current: null,
-	cash: null,
-	credits: null,
-	url_home: null,
-	url_career: null,
-	url_sparetime: null,
-	url_shopping: null,
+	/**
+	 * @var hash
+	 */
+	values: {},
 	
 	initialize: function() {
-		var element, elements;
-		element = $('navigation');
-		elements = element.getElements('.home a');
-		if (elements.length) {
-			this.url_home = elements[0].href;
+		
+		var container, element, match;
+		
+		container = $('navigation');
+		element = container.getElement('.home a');
+		if (element) {
+			this.values.url_home = element.href;
+			match = this.values.url_home.match(/\/(\d+)$/);
+			this.values.id = match[1];
 		}
-		elements = element.getElements('.career a');
-		if (elements.length) {
-			this.url_career = elements[0].href;
+		element = container.getElement('.career a');
+		if (element) {
+			this.values.url_career = element.href;
 		}
-		elements = element.getElements('.sparetime a');
-		if (elements.length) {
-			this.url_sparetime = elements[0].href;
+		element = container.getElement('.sparetime a');
+		if (element) {
+			this.values.url_sparetime = element.href;
 		}
-		elements = element.getElements('.shopping a');
-		if (elements.length) {
-			this.url_shopping = elements[0].href;
+		element = container.getElement('.shopping a');
+		if (element) {
+			this.values.url_shopping = element.href;
 		}
-		element = $('money');
-		elements = element.getElements('.cash');
-		if (elements.length) {
-			this.cash = parseInt(elements[0].get('text').replace('.',''));
+		
+		container = $('money');
+		element = container.getElement('.cash');
+		if (element) {
+			this.values.cash = parseInt(element.get('text').replace('.',''));
 		}
-		elements = element.getElements('.credits');
-		if (elements.length) {
-			this.credits = parseInt(elements[0].get('text').replace('.',''));
+		element = container.getElement('.credits');
+		if (element) {
+			this.values.credits = parseInt(element.get('text').replace('.',''));
 		}
+		
 		element = $('energyBar');
-		this.energy_max = parseInt(element.get('data-max'));
-		this.energy_current = parseInt(element.get('data-value'));
+		this.values.energy_max = parseInt(element.get('data-max'));
+		this.values.energy_current = parseInt(element.get('data-value'));
+		
+		// console.log(this.values);
 	},
 	
+	/**
+	 * link to my home
+	 * 
+	 * @return string
+	 */
 	getHomeUrl: function() {
-		return this.url_home;
+		return this.values.url_home;
 	},
 	
+	/**
+	 * link to my career page (list of activities)
+	 * 
+	 * @return string
+	 */
 	getCareerUrl: function() {
-		return this.url_career;
+		return this.values.url_career;
 	},
 	
+	/**
+	 * link to sparetime page (parties, ...)
+	 * 
+	 * @return string
+	 */
 	getSparetimeUrl: function() {
-		return this.url_sparetime;
+		return this.values.url_sparetime;
 	},
 	
+	/**
+	 * link to shopping page
+	 * 
+	 * @return string
+	 */
 	getShoppingUrl: function() {
-		return this.url_shopping;
+		return this.values.url_shopping;
 	},
 
+	/**
+	 * maximum number of energy units
+	 * 
+	 * @return integer
+	 */
 	getCurrentEnergy: function() {
-		return this.energy_current;
+		return this.values.energy_current;
 	},
 	
+	/**
+	 * current number of energy units
+	 * 
+	 * @return integer
+	 */
 	getMaxEnergy: function() {
-		return this.energy_max;
+		return this.values.energy_max;
 	},
 	
+	/**
+	 * my money
+	 * 
+	 * @return integer
+	 */
 	getCash: function() {
-		return this.cash;
+		return this.values.cash;
 	},
 	
+	/**
+	 * my credits
+	 * 
+	 * @return integer
+	 */
 	getCredits: function() {
-		return this.credits;
+		return this.values.credits;
+	},
+	
+	/**
+	 * my id
+	 * 
+	 * @return integer
+	 */
+	getMyId: function() {
+		return this.values.id;
 	}
 	
 });

@@ -1,0 +1,27 @@
+{
+  "name": "FL Enhanced",
+  "description": "Fliplife Enhanced for Google Chrome",
+  "version": "0.9.0",
+  "icons": {
+  	"16": "icon/16.png",
+  	"48": "icon/48.png",
+  	"128": "icon/128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+      	"http://fliplife.com/*"
+      ],
+      "css": [
+      	"fleh.css"
+      ],
+      "js": [
+        "fleh.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": [
+    "http://fliplife.com/"
+  ]
+}

@@ -6,19 +6,22 @@ Fleh.Worker.Career = new Class({
 	 * @var array
 	 */
 	jobs_open: null,
+	
 	/**
 	 * @var array
 	 */
 	jobs_done: null,
+	
 	/**
 	 * @var array
 	 */
 	jobs_available: null,
+	
 	/**
 	 * @var array
 	 */
 	jobs_locked: null,
-
+	
 	initialize: function(fleh) {
 		this.parent(fleh);
 		console.log('Fleh.Worker.Career');
@@ -29,6 +32,7 @@ Fleh.Worker.Career = new Class({
 	},
 
 	enhance: function() {
+		this.parent();
 		var self=this;
 		this.jobs_available.each(
 				function(element) {
@@ -43,10 +47,22 @@ Fleh.Worker.Career = new Class({
 		this.markBestActivity(this.jobs_available);
 	},
 
+	/**
+	 * @todo: no open jobs -> choose available job and start working
+	 */
 	autopilot: function() {
-		console.log('todo: select first open job and start working, else choose available job and start working');
-	// select first open job & work
-	// no open jobs -> choose available job and start working
+		if (!this.jobs_open.length) {
+			this.fleh.logMessage('keine offenen Jobs. Seite wird nach 30s neu geladen.');
+			Fleh.Tools.reloadAfter(30);
+			return;
+		}
+		var current = this.jobs_open[0];
+		link = current.getElement('div.proceed a');
+		if (!link) {
+			// Fehler, keinen Link gefunden
+			return;
+		}
+		Fleh.Tools.load(link.href);
 	},
 
 	markBestActivity: function(elements) {
