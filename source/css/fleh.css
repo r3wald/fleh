@@ -1,16 +1,15 @@
 @charset "UTF-8";
 
 #fleh {
-	position: absolute;
-	top: .5em;
-	left: 50%;
+	position: fixed;
+	top: 30px;
+	right: 200px;
 	z-index: 999;
 	background: rgba(255, 255, 255, .8);
-	width: 30em;
+	width: 360px;
 	padding: 5px;
 	border-radius: 5px;
 	border: 1px solid #ddd;
-	margin-left: -15em;
 }
 
 #fleh-autopilot {
