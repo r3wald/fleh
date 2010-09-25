@@ -1,8 +1,8 @@
 Fleh.Worker.Project = new Class({
-	
+
 	Extends: Fleh.Worker,
-	
-	initialize: function(fleh) {
+
+	initialize: function(fleh){
 		this.parent(fleh);
 		console.log('Fleh.Worker.Project');
 	},
@@ -10,8 +10,8 @@ Fleh.Worker.Project = new Class({
 	enhance: function() {
 		this.parent();
 	},
-	
-	autopilot: function() {
+
+	autopilot: function(){
 		var container = $('activityActionContainer');
 		var rightbar = $('rightBar');
 		
@@ -61,5 +61,5 @@ Fleh.Worker.Project = new Class({
 			
 		}			
 	}
-	
+
 });
