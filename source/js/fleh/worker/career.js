@@ -73,17 +73,27 @@ Fleh.Worker.Career = new Class({
 		}
 		var max_cph_index, max_xph_index;
 		var max_cph=0, max_xph=0;
-		var next_job = jobs[0];
+		var next_job = jobs[0]; // take first jobs - prefer larger jobs
+		// var next_job = jobs.pop(); // take last job - prefer smaller jobs
 //		jobs.each(function(element,index) {
-//			console.log(element);
+////			console.log(
+////					element.getElement('strong').get('text') +
+////					' (' +
+////					Math.round(element.retrieve('cph')) +
+////					'/' +
+////					Math.round(element.retrieve('xph')) +
+////					')'
+////			);
 //			if (element.retrieve('cph')>max_cph) {
 //				max_cph=element.retrieve('cph');
 //				max_cph_index=index;
 //			}
+////			console.log(element.retrieve('xph'),max_xph);
 //			if (element.retrieve('xph')>max_xph) {
 //				max_xph=element.retrieve('xph');
 //				max_xph_index=index;
 //				next_job = element;
+////				console.log('!');
 //			}
 //		});
 		link = next_job.getElement('div.join a');
@@ -92,6 +102,11 @@ Fleh.Worker.Career = new Class({
 			// Fehler, keinen Link gefunden
 			return;
 		}
+		this.fleh.logMessage(
+				next_job.getElement('strong').get('text') + ' (' +
+				Math.round(next_job.retrieve('cph')) + '/' +
+				Math.round(next_job.retrieve('xph')) + ')'
+		);
 		Fleh.Tools.load(link.href);
 	},
 
