@@ -34,7 +34,11 @@ Fleh.Worker.Project = new Class({
 			console.log('project done.');
 			Fleh.Tools.load(this.fleh.fv.getCareerUrl());
 			
-		} else if (container && container.getElement('.unable')) {
+		} else if (container && container.getElement('.unable') && this.fleh.fv.getCurrentEnergy()>0) {
+			console.log('your job is done.');
+			Fleh.Tools.load(this.fleh.fv.getCareerUrl());
+			
+		} else if (container && container.getElement('.unable')&& this.fleh.fv.getCurrentEnergy()==0) {
 			console.log('no energy.');
 			Fleh.Tools.reloadAfter(30);
 			
