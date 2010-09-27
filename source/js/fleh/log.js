@@ -27,7 +27,6 @@ Fleh.Log = new Class({
 	output: null,
 
 	initialize: function(){
-		//this.remove();
 		this.createControl();
 		this.messages = this.load();
 		if (this.messages.length > 0) {
@@ -61,7 +60,7 @@ Fleh.Log = new Class({
 	},
 
 	save: function(){
-		window.localStorage.removeItem(this.storageName);
+		this.remove();
 		window.localStorage.setItem(this.storageName, JSON.encode(this.messages));
 	},
 

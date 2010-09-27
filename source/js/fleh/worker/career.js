@@ -34,17 +34,12 @@ Fleh.Worker.Career = new Class({
 
 	enhance: function(){
 		this.parent();
-		var self=this;
-		this.jobs_available.each(
-			function(element){
-				self.enhanceActivity(element);
-			}
-		);
-		this.jobs_open.each(
-			function(element){
-				self.enhanceActivity(element);
-			}
-		);
+		this.jobs_available.each(function(element){
+			this.enhanceActivity(element);
+		}, this);
+		this.jobs_open.each(function(element){
+			this.enhanceActivity(element);
+		}, this);
 		this.markBestActivity(this.jobs_available);
 	},
 
@@ -134,7 +129,7 @@ Fleh.Worker.Career = new Class({
 		max_cph_index = max_xph_index = max_cphb_index = max_xphb_index = 0;
 		max_cph = max_xph = max_cphb = max_xphb = 0;
 		/* loop though activities */
-		$each(elements,function(element, index){
+		elements.each(function(element, index){
 			if (element.retrieve('xph') > max_xph) {
 				max_xph_index = index;
 				max_xph = element.retrieve('xph');
