@@ -48,39 +48,78 @@ Fleh.Worker.Career = new Class({
 		this.markBestActivity(this.jobs_available);
 	},
 
-	/**
-	 * @todo: no open jobs -> choose available job and start working
-	 */
-	autopilot: function(){
-		if (this.jobs_open.length) {
+	autopilot: function() {
+		if (this.jobs_open.length>0) {
 			this.resumeJob();
-		} else if (this.jobs_available.length) {
+		} else if (this.jobs_available.length>0) {
 			this.startJob();
 		} else {
-			this.fleh.logMessage('keine offenen Jobs. Seite wird nach 30s neu geladen.');
+			this.fleh.log.log('Keine offenen Jobs. Seite wird nach 30s neu geladen.');
 			Fleh.Tools.reloadAfter(30);
 		}
 	},
 
 	startJob: function() {
-		console.log(this.jobs_available);
 		var jobs = [];
 		this.jobs_available.each(function(element,index) {
-
+			var people = element.getElement('span.participants').get('text').split('/');
+			if (people[1]-people[0]==1) {
+				jobs.push(element);
+			}
 		});
+		if (jobs.length==0) {
+			this.fleh.log.log('Keine verfügbaren Jobs. Seite wird nach 30s neu geladen.');
+			Fleh.Tools.reloadAfter(30);
+		}
+		var max_cph_index, max_xph_index;
+		var max_cph=0, max_xph=0;
+		var next_job = jobs[0]; // take first jobs - prefer larger jobs
+		// var next_job = jobs.pop(); // take last job - prefer smaller jobs
+//		jobs.each(function(element,index) {
+////			console.log(
+////					element.getElement('strong').get('text') +
+////					' (' +
+////					Math.round(element.retrieve('cph')) +
+////					'/' +
+////					Math.round(element.retrieve('xph')) +
+////					')'
+////			);
+//			if (element.retrieve('cph')>max_cph) {
+//				max_cph=element.retrieve('cph');
+//				max_cph_index=index;
+//			}
+////			console.log(element.retrieve('xph'),max_xph);
+//			if (element.retrieve('xph')>max_xph) {
+//				max_xph=element.retrieve('xph');
+//				max_xph_index=index;
+//				next_job = element;
+////				console.log('!');
+//			}
+//		});
+		link = next_job.getElement('div.join a');
+		if (!link) {
+			console.log('error');
+			// Fehler, keinen Link gefunden
+			return;
+		}
+		this.fleh.log.log(
+				next_job.getElement('strong').get('text') + ' (' +
+				Math.round(next_job.retrieve('cph')) + '/' +
+				Math.round(next_job.retrieve('xph')) + ')'
+		);
+		Fleh.Tools.load(link.href);
 	},
 
 	resumeJob: function() {
 		var next_job = this.jobs_open[0];
-		//console.log('first:',next_job);
 		this.jobs_open.each(function (element) {
-			if (element.hasChild('.working')) {
-				//console.log('working:',element);
+			// if (element.hasChild('div.working')) { // doesn't work
+			if (element.getElement('div.working')) {
 				next_job = element;
-				break;
+				return;
 			}
 		});
-		//console.log('next:',next_job);
+		console.log('next:',next_job);
 		link = next_job.getElement('div.proceed a');
 		if (!link) {
 			// Fehler, keinen Link gefunden

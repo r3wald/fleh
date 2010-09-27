@@ -42,6 +42,7 @@ var Fleh = new Class({
 		fleh.grab(this.fa.control);
 		fleh.grab(this.log.output);
 		hook.grab(fleh);
+		fleh.makeDraggable();
 	},
 
 	setWorkerForCurrentUrl: function(){

@@ -23,15 +23,18 @@ Fleh.Autopilot = new Class({
 	},
 
 	setInitialState: function(){
-		this.enabled = false;
 		if (window.location.search.indexOf('autopilot=0') > -1) {
 			Cookie.write('autopilot', '0');
+			console.log('disabled via url');
 		} else if (window.location.search.indexOf('autopilot=1') > -1) {
 			this.enabled = true;
 			Cookie.write('autopilot', '1');
+			console.log('enabled via url');
 		} else if (Cookie.read('autopilot') == 1) {
+			console.log('enabled via cookie');
 			this.enabled = true;
 		} else {
+			console.log('disabled');
 			// disabled
 		}
 	},
