@@ -44,6 +44,7 @@ var Fleh = new Class({
 		fleh.grab(this.fa.control);
 		fleh.grab(this.log);
 		hook.grab(fleh);
+		fleh.makeDraggable();
 	},
 
 	logMessage: function(text){
