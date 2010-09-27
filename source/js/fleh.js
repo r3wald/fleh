@@ -14,7 +14,7 @@ var Fleh = new Class({
 	fv: null,
 
 	/**
-	 * @var Div
+	 * @var Fleh.Log
 	 */
 	log: null,
 
@@ -26,6 +26,7 @@ var Fleh = new Class({
 	initialize: function(){
 		this.fv = new Fleh.Values(this);
 		this.fa = new Fleh.Autopilot(this);
+		this.log = new Fleh.Log();
 		this.createControls();
 		this.setWorkerForCurrentUrl();
 		this.startWorker();
@@ -38,24 +39,9 @@ var Fleh = new Class({
 		fleh = new Element('div', {
 			'id': 'fleh'
 		});
-		this.log = new Element('div', {
-			'id': 'fleh-log'
-		});
 		fleh.grab(this.fa.control);
-		fleh.grab(this.log);
+		fleh.grab(this.log.output);
 		hook.grab(fleh);
-	},
-
-	logMessage: function(text){
-		var time = new Date().format('%H:%M:%S');
-		var msg = new Element('p', {
-			'text': '[' + time + ']: ' + text
-		});
-		if (this.log) {
-			this.log.grab(msg);
-			var size = this.log.getScrollSize();
-			this.log.scrollTo(size.x, size.y);
-		}
 	},
 
 	setWorkerForCurrentUrl: function(){
