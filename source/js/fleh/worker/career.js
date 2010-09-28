@@ -1,4 +1,3 @@
-
 Fleh.Worker.Career = new Class({
 
 	Extends: Fleh.Worker,
@@ -60,9 +59,10 @@ Fleh.Worker.Career = new Class({
 	},
 
 	startJob: function() {
-		var jobs = [];
+		var max_cph_index, max_xph_index, max_cph, max_xph, next_job, jobs, people;
+		jobs = [];
 		this.jobs_available.each(function(element,index) {
-			var people = element.getElement('span.participants').get('text').split('/');
+			people = element.getElement('span.participants').get('text').split('/');
 			if (people[1]-people[0]==1) {
 				jobs.push(element);
 			}
@@ -71,31 +71,37 @@ Fleh.Worker.Career = new Class({
 			this.fleh.logMessage('Keine verfügbaren Jobs. Seite wird nach 30s neu geladen.');
 			Fleh.Tools.reloadAfter(30);
 		}
-		var max_cph_index, max_xph_index;
-		var max_cph=0, max_xph=0;
-		var next_job = jobs[0]; // take first jobs - prefer larger jobs
-		// var next_job = jobs.pop(); // take last job - prefer smaller jobs
-//		jobs.each(function(element,index) {
-////			console.log(
-////					element.getElement('strong').get('text') +
-////					' (' +
-////					Math.round(element.retrieve('cph')) +
-////					'/' +
-////					Math.round(element.retrieve('xph')) +
-////					')'
-////			);
-//			if (element.retrieve('cph')>max_cph) {
-//				max_cph=element.retrieve('cph');
-//				max_cph_index=index;
-//			}
-////			console.log(element.retrieve('xph'),max_xph);
-//			if (element.retrieve('xph')>max_xph) {
-//				max_xph=element.retrieve('xph');
-//				max_xph_index=index;
-//				next_job = element;
-////				console.log('!');
-//			}
-//		});
+		max_cph=0;
+		max_xph=0;
+		jobs.each(function(element,index) {
+			console.log(
+					element.getElement('strong').get('text') +
+					' (' +
+					Math.round(element.retrieve('cph')) +
+					'/' +
+					Math.round(element.retrieve('xph')) +
+					')'
+			);
+			if (element.retrieve('cph')>max_cph) {
+				max_cph=element.retrieve('cph');
+				max_cph_index=index;
+			}
+//			console.log(element.retrieve('xph'),max_xph);
+			if (element.retrieve('xph')>max_xph) {
+				max_xph=element.retrieve('xph');
+				max_xph_index=index;
+//				console.log('!');
+			}
+		});
+		next_job = this.takeBestJob(jobs); // take best jobs - ?
+		if (!next_job) {
+			next_job = this.takeFirstJob(jobs); // take first jobs - prefer larger jobs
+			next_job = this.takeLastJob(jobs); // take last job - prefer smaller jobs
+		}
+		if (!next_job) {
+			console.log('no suitable job found!');
+			return;
+		}
 		link = next_job.getElement('div.join a');
 		if (!link) {
 			console.log('error');
@@ -110,6 +116,28 @@ Fleh.Worker.Career = new Class({
 		Fleh.Tools.load(link.href);
 	},
 
+	takeFirstJob: function(jobs) {
+		var job = jobs[0];
+		return job;
+	},
+	
+	takeLastJob: function(jobs) {
+		var job = jobs.pop();
+		return job;
+	},
+	
+	takeBestJob: function(jobs) {
+		return;
+	},
+	
+	takeJobWithMostXp: function(jobs) {
+		return;
+	},
+	
+	takeJobWithMostMoney: function(jobs) {
+		return;
+	},
+	
 	resumeJob: function() {
 		var next_job = this.jobs_open[0];
 		this.jobs_open.each(function (element) {
