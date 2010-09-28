@@ -19,6 +19,7 @@
 				"js/mootools/core.js",
 				"js/mootools/more.js",
 				"js/fleh.js",
+				"js/fleh/log.js",
 				"js/fleh/autopilot.js",
 				"js/fleh/values.js",
 				"js/fleh/tools.js",

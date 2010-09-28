@@ -33,17 +33,12 @@ Fleh.Worker.Career = new Class({
 
 	enhance: function(){
 		this.parent();
-		var self=this;
-		this.jobs_available.each(
-			function(element){
-				self.enhanceActivity(element);
-			}
-		);
-		this.jobs_open.each(
-			function(element){
-				self.enhanceActivity(element);
-			}
-		);
+		this.jobs_available.each(function(element){
+			this.enhanceActivity(element);
+		}, this);
+		this.jobs_open.each(function(element){
+			this.enhanceActivity(element);
+		}, this);
 		this.markBestActivity(this.jobs_available);
 	},
 
@@ -53,7 +48,7 @@ Fleh.Worker.Career = new Class({
 		} else if (this.jobs_available.length>0) {
 			this.startJob();
 		} else {
-			this.fleh.logMessage('Keine offenen Jobs. Seite wird nach 30s neu geladen.');
+			this.fleh.log.log('Keine offenen Jobs. Seite wird nach 30s neu geladen.');
 			Fleh.Tools.reloadAfter(30);
 		}
 	},
@@ -68,7 +63,7 @@ Fleh.Worker.Career = new Class({
 			}
 		});
 		if (jobs.length==0) {
-			this.fleh.logMessage('Keine verfügbaren Jobs. Seite wird nach 30s neu geladen.');
+			this.fleh.log.log('Keine verfügbaren Jobs. Seite wird nach 30s neu geladen.');
 			Fleh.Tools.reloadAfter(30);
 		}
 		max_cph=0;
@@ -108,7 +103,7 @@ Fleh.Worker.Career = new Class({
 			// Fehler, keinen Link gefunden
 			return;
 		}
-		this.fleh.logMessage(
+		this.fleh.log.log(
 				next_job.getElement('strong').get('text') + ' (' +
 				Math.round(next_job.retrieve('cph')) + '/' +
 				Math.round(next_job.retrieve('xph')) + ')'
@@ -146,7 +141,7 @@ Fleh.Worker.Career = new Class({
 				next_job = element;
 				return;
 			}
-		});		
+		});
 		console.log('next:',next_job);
 		link = next_job.getElement('div.proceed a');
 		if (!link) {
@@ -162,7 +157,7 @@ Fleh.Worker.Career = new Class({
 		max_cph_index = max_xph_index = max_cphb_index = max_xphb_index = 0;
 		max_cph = max_xph = max_cphb = max_xphb = 0;
 		/* loop though activities */
-		$each(elements,function(element, index){
+		elements.each(function(element, index){
 			if (element.retrieve('xph') > max_xph) {
 				max_xph_index = index;
 				max_xph = element.retrieve('xph');

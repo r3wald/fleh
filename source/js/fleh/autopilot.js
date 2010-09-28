@@ -47,7 +47,7 @@ Fleh.Autopilot = new Class({
 		this.enabled = true;
 		Cookie.write('autopilot', '1');
 		this.updateControl();
-		this.fleh.logMessage('Autopilot aktiviert');
+		this.fleh.log.log('Autopilot aktiviert');
 		// this.fleh.startAutopilot(); // doesn't work -> reload instead
 		Fleh.Tools.reload();
 	},
@@ -56,21 +56,19 @@ Fleh.Autopilot = new Class({
 		this.enabled = false;
 		Cookie.write('autopilot', '0');
 		this.updateControl();
-		this.fleh.logMessage('Autopilot deaktiviert');
+		this.fleh.log.log('Autopilot deaktiviert');
 		// this.fleh.stopAutopilot(); // cancel ongoing actions
 	},
 
 	createControl: function(){
-		var button, self;
-		self = this;
-		button = new Element('button');
+		var button = new Element('button');
 		button.addEvent('click', function(){
-			if (self.enabled) {
-				self.disable();
+			if (this.enabled) {
+				this.disable();
 			} else {
-				self.enable();
+				this.enable();
 			}
-		});
+		}.bind(this));
 		this.control = new Element('div', {
 			'id': 'fleh-autopilot',
 			'text': 'Autopilot: '

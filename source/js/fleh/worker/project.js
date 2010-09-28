@@ -6,7 +6,7 @@ Fleh.Worker.Project = new Class({
 		this.parent(fleh);
 		console.log('Fleh.Worker.Project');
 	},
-	
+
 	enhance: function() {
 		this.parent();
 	},
@@ -14,11 +14,11 @@ Fleh.Worker.Project = new Class({
 	autopilot: function(){
 		var container = $('activityActionContainer');
 		var rightbar = $('rightBar');
-		
+
 		if (container && container.getElement('#timeSlider.busy')) {
-			this.fleh.logMessage('Mit diesem Job beschäftigt. Seite wird nach 30 Sekunden neu geladen.');
+			this.fleh.log.log('Mit diesem Job beschäftigt. Seite wird nach 30 Sekunden neu geladen.');
 			Fleh.Tools.reloadAfter(30);
-			
+
 		} else if (container && container.getElement('#timeSlider')) {
 			// find max energy value, set and submit
 			var meter = container.getElement('#timeSlider .meter');
@@ -29,24 +29,24 @@ Fleh.Worker.Project = new Class({
 			// meter.set('data-value',value); // doesn't work
 			input.value = value;
 			form.submit();
-			
+
 		} else if (container && container.getElement('.jobFinishedContainer')) {
 			console.log('project done.');
 			Fleh.Tools.load(this.fleh.fv.getCareerUrl());
-			
-		} else if (container && container.getElement('.unable') && this.fleh.fv.getCurrentEnergy()>0) {
+
+		} else if (container && container.getElement('.unable') && this.fleh.fv.getCurrentEnergy() > 0) {
 			console.log('your job is done.');
 			Fleh.Tools.load(this.fleh.fv.getCareerUrl());
-			
-		} else if (container && container.getElement('.unable')&& this.fleh.fv.getCurrentEnergy()==0) {
+
+		} else if (container && container.getElement('.unable') && this.fleh.fv.getCurrentEnergy() == 0) {
 			console.log('no energy.');
 			Fleh.Tools.reloadAfter(30);
-			
+
 		} else if (container && container.getElement('.busy')) {
-			this.fleh.logMessage('Anderweitig beschäftigt. Seite wird nach 30 Sekunden neu geladen.');
+			this.fleh.log.log('Anderweitig beschäftigt. Seite wird nach 30 Sekunden neu geladen.');
 			Fleh.Tools.reloadAfter(30);
-		
-		} else if (rightbar && rightbar.getElement('.actionButtons a.green span').get('text')=='Teilnehmen') {
+
+		} else if (rightbar && rightbar.getElement('.actionButtons a.green span').get('text') == 'Teilnehmen') {
 			console.log('start new job!');
 			var buttons = $$('.projectHeader .actionButtons a.green');
 			if (!buttons.length) {
@@ -58,12 +58,11 @@ Fleh.Worker.Project = new Class({
 				return;
 			}
 			Fleh.Tools.load(link);
-			
+
 		} else {
 			console.log('???');
 			Fleh.Tools.reloadAfter(30);
-			
-		}			
+		}
 	}
 
 });

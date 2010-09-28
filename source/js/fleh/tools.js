@@ -10,11 +10,10 @@ Fleh.Tools = {
 	},
 
 	reloadAfter: function(seconds){
-		var self = this;
 		setTimeout(
 			function(){
-				self.reload();
-			},
+				this.reload();
+			}.bind(this),
 			1000 * seconds
 		);
 	},
