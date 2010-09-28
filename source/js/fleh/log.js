@@ -54,6 +54,8 @@ Fleh.Log = new Class({
 			savedLogs = JSON.decode(window.localStorage.getItem(this.storageName));
 		} catch(e) {
 			console.log(e);
+		}
+		if(!savedLogs) {
 			savedLogs = [];
 		}
 		return savedLogs;
