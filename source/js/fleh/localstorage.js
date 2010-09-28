@@ -7,14 +7,14 @@
 Fleh.LocalStorage = new Class({
 
 	/**
-	 * @var Storage name
+	 * @var storageName
 	 */
 	storageName: null,
 
 	/**
 	 * Constructor defined here to enable standalone use of this class.
 	 *
-	 * @param storageName
+	 * @param string storageName
 	 */
 	initialize: function(storageName){
 		this.storageName = storageName;
@@ -23,7 +23,7 @@ Fleh.LocalStorage = new Class({
 	/**
 	 * Load any data which was saved before in localStorage
 	 *
-	 * @return value saveb before, otherwise null
+	 * @return value saved before, otherwise null
 	 */
 	load: function(){
 		var saved;
@@ -38,7 +38,7 @@ Fleh.LocalStorage = new Class({
 	/**
 	 * Save data
 	 *
-	 * @param input
+	 * @param mixed input
 	 */
 	save: function(input){
 		this.remove();

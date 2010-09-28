@@ -1,6 +1,13 @@
 
 Fleh.Autopilot = new Class({
 
+	Implements: Fleh.LocalStorage,
+
+	/**
+	 * @var storageName
+	 */
+	storageName: 'fleh-autopilot',
+
 	/**
 	 * @var boolean
 	 */
@@ -24,13 +31,13 @@ Fleh.Autopilot = new Class({
 
 	setInitialState: function(){
 		if (window.location.search.indexOf('autopilot=0') > -1) {
-			Cookie.write('autopilot', '0');
+			this.save(0);
 			console.log('disabled via url');
 		} else if (window.location.search.indexOf('autopilot=1') > -1) {
 			this.enabled = true;
-			Cookie.write('autopilot', '1');
+			this.save(1);
 			console.log('enabled via url');
-		} else if (Cookie.read('autopilot') == 1) {
+		} else if (this.load() == 1) {
 			console.log('enabled via cookie');
 			this.enabled = true;
 		} else {
@@ -45,7 +52,7 @@ Fleh.Autopilot = new Class({
 
 	enable: function(){
 		this.enabled = true;
-		Cookie.write('autopilot', '1');
+		this.save(1);
 		this.updateControl();
 		this.fleh.log.log('Autopilot aktiviert');
 		// this.fleh.startAutopilot(); // doesn't work -> reload instead
@@ -54,7 +61,7 @@ Fleh.Autopilot = new Class({
 
 	disable: function(){
 		this.enabled = false;
-		Cookie.write('autopilot', '0');
+		this.save(0);
 		this.updateControl();
 		this.fleh.log.log('Autopilot deaktiviert');
 		// this.fleh.stopAutopilot(); // cancel ongoing actions
