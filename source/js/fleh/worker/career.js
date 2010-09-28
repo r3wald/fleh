@@ -2,6 +2,24 @@ Fleh.Worker.Career = new Class({
 
 	Extends: Fleh.Worker,
 
+	strategies: {
+		takeFirstJob: {
+			label: 'immer den ersten',
+			description: 'Damit werden größere Jobs bevorzugt.',
+			method: 'takeFirstJob'
+		},
+		takeLastJob: {
+			label: 'immer den letzten',
+			description: 'Damit werden kleinere Jobs bevorzugt.',
+			method: ''			
+		},
+		takeShorties: {
+			label: 'nur Einstünder',
+			description: 'Damit werden ausschließlich einstündige Jobs genommen.',
+			method: 'takeShorties'			
+		}
+	},
+	
 	/**
 	 * @var array
 	 */
@@ -54,7 +72,8 @@ Fleh.Worker.Career = new Class({
 	},
 
 	startJob: function() {
-		var max_cph_index, max_xph_index, max_cph, max_xph, next_job, jobs, people;
+		var max_cph_index, max_xph_index, max_cph, max_xph, next_job, jobs, people, strategy, strategy2;
+		// calculate jobs for only one person
 		jobs = [];
 		this.jobs_available.each(function(element,index) {
 			people = element.getElement('span.participants').get('text').split('/');
@@ -62,6 +81,7 @@ Fleh.Worker.Career = new Class({
 				jobs.push(element);
 			}
 		});
+		// none available? quit
 		if (jobs.length==0) {
 			this.fleh.log.log('Keine verfügbaren Jobs. Seite wird nach 30s neu geladen.');
 			Fleh.Tools.reloadAfter(30);
@@ -81,16 +101,19 @@ Fleh.Worker.Career = new Class({
 				max_cph=element.retrieve('cph');
 				max_cph_index=index;
 			}
-//			console.log(element.retrieve('xph'),max_xph);
+			console.log(element.retrieve('xph'),max_xph);
 			if (element.retrieve('xph')>max_xph) {
 				max_xph=element.retrieve('xph');
 				max_xph_index=index;
-//				console.log('!');
+				console.log('!');
 			}
 		});
+		
+		startegy = 'takeBestJob';
+		strategy2 = 'takeLastJob';
+		
 		next_job = this.takeBestJob(jobs); // take best jobs - ?
 		if (!next_job) {
-			next_job = this.takeFirstJob(jobs); // take first jobs - prefer larger jobs
 			next_job = this.takeLastJob(jobs); // take last job - prefer smaller jobs
 		}
 		if (!next_job) {
@@ -130,6 +153,10 @@ Fleh.Worker.Career = new Class({
 	},
 	
 	takeJobWithMostMoney: function(jobs) {
+		return;
+	},
+	
+	takeShorties: function(jobs) {
 		return;
 	},
 	
