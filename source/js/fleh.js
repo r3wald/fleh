@@ -55,16 +55,17 @@ var Fleh = new Class({
 		var url_current, url_project;
 		url_current = window.location.protocol + '//' + window.location.hostname + window.location.pathname;
 		url_project = '^' + this.fv.getCareerUrl() + '/projects/[0-9]+$';
-		if (url_current==this.fv.getHomeUrl()) {
+
+		if (url_current == this.fv.getHomeUrl()) {
 			this.worker = new Fleh.Worker.Home(this);
 
-		} else if (url_current==this.fv.getCareerUrl()) {
+		} else if (url_current == this.fv.getCareerUrl()) {
 			this.worker = new Fleh.Worker.Career(this);
 
-		} else if (url_current==this.fv.getSparetimeUrl()) {
+		} else if (url_current == this.fv.getSparetimeUrl()) {
 			this.worker = new Fleh.Worker.Sparetime(this);
 
-		} else if (url_current==this.fv.getShoppingUrl()) {
+		} else if (url_current == this.fv.getShoppingUrl()) {
 			this.worker = new Fleh.Worker.Shopping(this);
 
 		} else if (url_current.match(url_project)) {
