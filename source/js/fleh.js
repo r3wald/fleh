@@ -43,7 +43,7 @@ var Fleh = new Class({
 		fleh.grab(this.log.output);
 		hook.grab(fleh);
 		fleh.makeDraggable({
-			handle: this.fa.control,
+			handle: $('fleh-log'),
 			modifiers: {
 				'x': 'margin-left',
 				'y': 'top'
