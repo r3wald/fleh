@@ -23,6 +23,11 @@ var Fleh = new Class({
 	 */
 	worker: null,
 
+	/**
+	 * @var storageName
+	 */
+	storageName: 'fleh',
+
 	initialize: function(){
 		this.fv = new Fleh.Values(this);
 		this.fa = new Fleh.Autopilot(this);
@@ -34,20 +39,39 @@ var Fleh = new Class({
 	},
 
 	createControls: function(){
-		var hook, fleh;
+		var hook, fleh, dragHandle, savedPosition;
 		hook = $('header');
 		fleh = new Element('div', {
 			'id': 'fleh'
 		});
+		dragHandle = new Element('div', {
+			'id': 'fleh-drag-handle',
+			'text': 'Fliplife Enhanced'
+		});
+		fleh.grab(dragHandle);
 		fleh.grab(this.fa.control);
 		fleh.grab(this.log.output);
 		hook.grab(fleh);
+		savedPosition = JSON.decode(window.localStorage.getItem('fleh-position'));
+		if (savedPosition != null) {
+			fleh.setStyles({
+				'margin-left': savedPosition.x,
+				'margin-top': savedPosition.y
+			});
+		}
 		fleh.makeDraggable({
-			handle: $('fleh-log'),
+			handle: dragHandle,
 			modifiers: {
 				'x': 'margin-left',
-				'y': 'top'
-			}
+				'y': 'margin-top'
+			},
+			onComplete: function(){
+				window.localStorage.removeItem('fleh-position');
+				window.localStorage.setItem('fleh-position', JSON.encode({
+					'x': fleh.getStyle('margin-left'),
+					'y': fleh.getStyle('margin-top')
+				}));
+			}.pass(fleh, this)
 		});
 	},
 

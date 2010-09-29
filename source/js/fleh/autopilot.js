@@ -22,7 +22,7 @@ Fleh.Autopilot = new Class({
 	 * @var Div
 	 */
 	control: null,
-	
+
 	initialize: function(fleh){
 		this.fleh = fleh;
 		this.setInitialState();
@@ -31,10 +31,10 @@ Fleh.Autopilot = new Class({
 
 	setInitialState: function(){
 		if (window.location.search.indexOf('autopilot=0') > -1) {
-			this.save('enabled',0);
+			this.save('enabled', 0);
 		} else if (window.location.search.indexOf('autopilot=1') > -1) {
 			this.enabled = true;
-			this.save('enabled',1);
+			this.save('enabled', 1);
 		} else if (this.load('enabled') == 1) {
 			this.enabled = true;
 		} else {
@@ -48,7 +48,7 @@ Fleh.Autopilot = new Class({
 
 	enable: function(){
 		this.enabled = true;
-		this.save('enabled',1);
+		this.save('enabled', 1);
 		this.updateControl();
 		this.fleh.log.log('Autopilot aktiviert');
 		// this.fleh.startAutopilot(); // doesn't work -> reload instead
@@ -57,14 +57,14 @@ Fleh.Autopilot = new Class({
 
 	disable: function(){
 		this.enabled = false;
-		this.save('enabled',0);
+		this.save('enabled', 0);
 		this.updateControl();
 		this.fleh.log.log('Autopilot deaktiviert');
 		// this.fleh.stopAutopilot(); // cancel ongoing actions
 	},
 
 	createControl: function(){
-		var button,  select;
+		var button, select;
 		button = new Element('button');
 		button.addEvent('click', function(){
 			if (this.enabled) {
@@ -101,17 +101,17 @@ Fleh.Autopilot = new Class({
 	updateControl: function(){
 		this.setButtonState();
 	},
-	
+
 	buildStrategiesSelect: function() {
 		var checked, select, strategy;
 		strategy = this.load('strategy');
-		select = new Element('select',{
+		select = new Element('select', {
 			'id': 'fleh-strategy',
-			'name': 'strategy',
+			'name': 'strategy'
 		});
 		Fleh.Strategy.instances.each(function(s) {
-			checked = s.name==strategy;
-			console.log(s.name,strategy,checked,s.getOption(checked));
+			checked = s.name == strategy;
+			console.log(s.name, strategy, checked, s.getOption(checked));
 			select.grab(s.getOption(checked));
 		});
 		select.addEvent('change',function() {
@@ -122,8 +122,8 @@ Fleh.Autopilot = new Class({
 	},
 
 	saveStrategy: function(name) {
-		console.log('strategy',name);
-		this.save('strategy',name);
+		console.log('strategy', name);
+		this.save('strategy', name);
 	}
 
 });
