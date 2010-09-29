@@ -31,11 +31,11 @@ Fleh.Autopilot = new Class({
 
 	setInitialState: function(){
 		if (window.location.search.indexOf('autopilot=0') > -1) {
-			this.save(0);
+			this.save('enabled',0);
 		} else if (window.location.search.indexOf('autopilot=1') > -1) {
 			this.enabled = true;
-			this.save(1);
-		} else if (this.load() == 1) {
+			this.save('enabled',1);
+		} else if (this.load('enabled') == 1) {
 			this.enabled = true;
 		} else {
 			// disabled
@@ -48,7 +48,7 @@ Fleh.Autopilot = new Class({
 
 	enable: function(){
 		this.enabled = true;
-		this.save(1);
+		this.save('enabled',1);
 		this.updateControl();
 		this.fleh.log.log('Autopilot aktiviert');
 		// this.fleh.startAutopilot(); // doesn't work -> reload instead
@@ -57,7 +57,7 @@ Fleh.Autopilot = new Class({
 
 	disable: function(){
 		this.enabled = false;
-		this.save(0);
+		this.save('enabled',0);
 		this.updateControl();
 		this.fleh.log.log('Autopilot deaktiviert');
 		// this.fleh.stopAutopilot(); // cancel ongoing actions
@@ -103,14 +103,27 @@ Fleh.Autopilot = new Class({
 	},
 	
 	buildStrategiesSelect: function() {
+		var checked, select, strategy;
+		strategy = this.load('strategy');
 		select = new Element('select',{
-			'id': 'fleh-strategies',
-			'name': 'strategies'
+			'id': 'fleh-strategy',
+			'name': 'strategy',
 		});
 		Fleh.Strategy.instances.each(function(s) {
-			select.grab(s.getOption());
+			checked = s.name==strategy;
+			console.log(s.name,strategy,checked,s.getOption(checked));
+			select.grab(s.getOption(checked));
 		});
+		select.addEvent('change',function() {
+			strategy = $('fleh-strategy').value;
+			this.saveStrategy(strategy);
+		}.bind(this));
 		return select;
-	}		
+	},
+
+	saveStrategy: function(name) {
+		console.log('strategy',name);
+		this.save('strategy',name);
+	}
 
 });

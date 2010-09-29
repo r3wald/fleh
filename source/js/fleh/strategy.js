@@ -9,16 +9,17 @@ Fleh.Strategy = new Class({
 	initialize: function(){
 	},
 
-	getOption: function() {
+	getOption: function(selected) {
 		var option;
+//				'title': this.description,
 		option = new Element(
 			'option', {
 				'value': this.name,
-				'title': this.description,
-				'text': this.label
+				'text': this.label,
+				'selected': selected ? true : false
 			}
 		);
-		option.store('object',this);
+//		option.store('object',this);
 		return option;
 	},
 	

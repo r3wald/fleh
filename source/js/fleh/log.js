@@ -33,9 +33,9 @@ Fleh.Log = new Class({
 
 	initialize: function(){
 		this.createControl();
-		this.messages = this.load() || [];
+		this.messages = this.load('messages') || [];
 		this.updateMessages();
-		this.save(this.messages);
+		this.save('messages',this.messages);
 	},
 
 	/**
@@ -58,7 +58,7 @@ Fleh.Log = new Class({
 			'time': timestamp,
 			'text': text
 		}));
-		this.save(this.messages);
+		this.save('messages',this.messages);
 		this.pushMessage(timestamp, text);
 	},
 

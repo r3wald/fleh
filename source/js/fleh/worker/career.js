@@ -117,7 +117,8 @@ Fleh.Worker.Career = new Class({
 
 	selectJobForCurrentStrategy: function(jobs) {
 		var name, strategy, job;
-		name = $('fleh-strategies').value;
+		name = $('fleh-strategy').value;
+		this.fleh.fa.saveStrategy(name);
 		strategy = eval('new ' + name+ '()');
 		job = strategy.select(jobs);
 		return job;

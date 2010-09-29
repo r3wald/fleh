@@ -25,10 +25,10 @@ Fleh.LocalStorage = new Class({
 	 *
 	 * @return value saved before, otherwise null
 	 */
-	load: function(){
+	load: function(name){
 		var saved;
 		try {
-			saved = JSON.decode(window.localStorage.getItem(this.storageName));
+			saved = JSON.decode(window.localStorage.getItem(this.storageName + '#' + name));
 		} catch(e) {
 			console.log(e);
 		}
@@ -40,16 +40,16 @@ Fleh.LocalStorage = new Class({
 	 *
 	 * @param mixed input
 	 */
-	save: function(input){
+	save: function(name,input){
 		this.remove();
-		window.localStorage.setItem(this.storageName, JSON.encode(input));
+		window.localStorage.setItem(this.storageName + '#' + name, JSON.encode(input));
 	},
 
 	/**
 	 * Remove any data from storageName
 	 */
-	remove: function(){
-		window.localStorage.removeItem(this.storageName);
+	remove: function(name){
+		window.localStorage.removeItem(this.storageName + '#' + name);
 	}
 
 });
