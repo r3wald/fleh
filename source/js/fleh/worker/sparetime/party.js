@@ -5,7 +5,7 @@ Fleh.Worker.Sparetime.Party = new Class({
 
 	initialize: function(fleh){
 		this.parent(fleh);
-		console.log('Fleh.Worker.Sparetime.Party');
+		console.log('todo: Fleh.Worker.Sparetime.Party');
 	},
 
 	enhance: function(){

@@ -22,7 +22,7 @@ Fleh.Autopilot = new Class({
 	 * @var Div
 	 */
 	control: null,
-
+	
 	initialize: function(fleh){
 		this.fleh = fleh;
 		this.setInitialState();
@@ -32,16 +32,12 @@ Fleh.Autopilot = new Class({
 	setInitialState: function(){
 		if (window.location.search.indexOf('autopilot=0') > -1) {
 			this.save(0);
-			console.log('disabled via url');
 		} else if (window.location.search.indexOf('autopilot=1') > -1) {
 			this.enabled = true;
 			this.save(1);
-			console.log('enabled via url');
 		} else if (this.load() == 1) {
-			console.log('enabled via cookie');
 			this.enabled = true;
 		} else {
-			console.log('disabled');
 			// disabled
 		}
 	},
@@ -68,7 +64,8 @@ Fleh.Autopilot = new Class({
 	},
 
 	createControl: function(){
-		var button = new Element('button');
+		var button,  select;
+		button = new Element('button');
 		button.addEvent('click', function(){
 			if (this.enabled) {
 				this.disable();
@@ -80,6 +77,8 @@ Fleh.Autopilot = new Class({
 			'id': 'fleh-autopilot',
 			'text': 'Autopilot: '
 		});
+		select = this.buildStrategiesSelect();
+		this.control.grab(select);
 		this.control.grab(button);
 		this.setButtonState();
 	},
@@ -101,6 +100,17 @@ Fleh.Autopilot = new Class({
 
 	updateControl: function(){
 		this.setButtonState();
-	}
+	},
+	
+	buildStrategiesSelect: function() {
+		select = new Element('select',{
+			'id': 'fleh-strategies',
+			'name': 'strategies'
+		});
+		Fleh.Strategy.instances.each(function(s) {
+			select.grab(s.getOption());
+		});
+		return select;
+	}		
 
 });

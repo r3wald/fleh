@@ -5,7 +5,7 @@ Fleh.Worker.Shopping = new Class({
 
 	initialize: function(fleh){
 		this.parent(fleh);
-		console.log('Fleh.Worker.Shopping');
+		console.log('todo: Fleh.Worker.Shopping');
 	},
 
 	enhance: function(){

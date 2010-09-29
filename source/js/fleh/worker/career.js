@@ -2,24 +2,6 @@ Fleh.Worker.Career = new Class({
 
 	Extends: Fleh.Worker,
 
-	strategies: {
-		takeFirstJob: {
-			label: 'immer den ersten',
-			description: 'Damit werden größere Jobs bevorzugt.',
-			method: 'takeFirstJob'
-		},
-		takeLastJob: {
-			label: 'immer den letzten',
-			description: 'Damit werden kleinere Jobs bevorzugt.',
-			method: ''			
-		},
-		takeShorties: {
-			label: 'nur Einstünder',
-			description: 'Damit werden ausschließlich einstündige Jobs genommen.',
-			method: 'takeShorties'			
-		}
-	},
-	
 	/**
 	 * @var array
 	 */
@@ -42,7 +24,6 @@ Fleh.Worker.Career = new Class({
 
 	initialize: function(fleh){
 		this.parent(fleh);
-		console.log('Fleh.Worker.Career');
 		this.jobs_done = $$('ul.activities div.deadlineReached').getParent();
 		this.jobs_open = $$('ul.activities li.orange');
 		this.jobs_locked = $$('ul.activities li.locked');
@@ -71,16 +52,24 @@ Fleh.Worker.Career = new Class({
 		}
 	},
 
-	startJob: function() {
-		var max_cph_index, max_xph_index, max_cph, max_xph, next_job, jobs, people, strategy, strategy2;
-		// calculate jobs for only one person
-		jobs = [];
-		this.jobs_available.each(function(element,index) {
+	/**
+	 * calculate jobs for only one person (missing)
+	 */
+	findJobsForOneMissingPerson: function(jobs) {
+		var result = [];
+		jobs.each(function(element,index) {
 			people = element.getElement('span.participants').get('text').split('/');
 			if (people[1]-people[0]==1) {
-				jobs.push(element);
+				result.push(element);
 			}
 		});
+		return result;
+	},
+	
+	startJob: function() {
+		var max_cph_index, max_xph_index, max_cph, max_xph, next_job, jobs, people;
+		// take only available jobs where one person is needed
+		jobs = this.findJobsForOneMissingPerson(this.jobs_available);
 		// none available? quit
 		if (jobs.length==0) {
 			this.fleh.log.log('Keine verfügbaren Jobs. Seite wird nach 30s neu geladen.');
@@ -89,75 +78,49 @@ Fleh.Worker.Career = new Class({
 		max_cph=0;
 		max_xph=0;
 		jobs.each(function(element,index) {
-			console.log(
-					element.getElement('strong').get('text') +
-					' (' +
-					Math.round(element.retrieve('cph')) +
-					'/' +
-					Math.round(element.retrieve('xph')) +
-					')'
-			);
+//			console.log(
+//					element.getElement('strong').get('text') +
+//					' (' +
+//					Math.round(element.retrieve('cph')) +
+//					'/' +
+//					Math.round(element.retrieve('xph')) +
+//					')'
+//			);
 			if (element.retrieve('cph')>max_cph) {
 				max_cph=element.retrieve('cph');
 				max_cph_index=index;
 			}
-			console.log(element.retrieve('xph'),max_xph);
+//			console.log(element.retrieve('xph'),max_xph);
 			if (element.retrieve('xph')>max_xph) {
 				max_xph=element.retrieve('xph');
 				max_xph_index=index;
-				console.log('!');
+//				console.log('!');
 			}
 		});
+
+		next_job = this.selectJobForCurrentStrategy(jobs);
 		
-		startegy = 'takeBestJob';
-		strategy2 = 'takeLastJob';
-		
-		next_job = this.takeBestJob(jobs); // take best jobs - ?
 		if (!next_job) {
-			next_job = this.takeLastJob(jobs); // take last job - prefer smaller jobs
-		}
-		if (!next_job) {
-			console.log('no suitable job found!');
+			this.fleh.log.log('Aktuell paßt kein Job.');
 			return;
 		}
+		
 		link = next_job.getElement('div.join a');
 		if (!link) {
 			console.log('error');
 			// Fehler, keinen Link gefunden
 			return;
 		}
-		this.fleh.log.log(
-				next_job.getElement('strong').get('text') + ' (' +
-				Math.round(next_job.retrieve('cph')) + '/' +
-				Math.round(next_job.retrieve('xph')) + ')'
-		);
+		
 		Fleh.Tools.load(link.href);
 	},
 
-	takeFirstJob: function(jobs) {
-		var job = jobs[0];
+	selectJobForCurrentStrategy: function(jobs) {
+		var name, strategy, job;
+		name = $('fleh-strategies').value;
+		strategy = eval('new ' + name+ '()');
+		job = strategy.select(jobs);
 		return job;
-	},
-	
-	takeLastJob: function(jobs) {
-		var job = jobs.pop();
-		return job;
-	},
-	
-	takeBestJob: function(jobs) {
-		return;
-	},
-	
-	takeJobWithMostXp: function(jobs) {
-		return;
-	},
-	
-	takeJobWithMostMoney: function(jobs) {
-		return;
-	},
-	
-	takeShorties: function(jobs) {
-		return;
 	},
 	
 	resumeJob: function() {
@@ -169,7 +132,7 @@ Fleh.Worker.Career = new Class({
 				return;
 			}
 		});
-		console.log('next:',next_job);
+//		console.log('next:',next_job);
 		link = next_job.getElement('div.proceed a');
 		if (!link) {
 			// Fehler, keinen Link gefunden

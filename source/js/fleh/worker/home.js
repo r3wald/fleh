@@ -5,7 +5,6 @@ Fleh.Worker.Home = new Class({
 
 	initialize: function(fleh){
 		this.parent(fleh);
-		console.log('Fleh.Worker.Home');
 	},
 
 	enhance: function(){

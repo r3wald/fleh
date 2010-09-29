@@ -4,7 +4,6 @@ Fleh.Worker.Project = new Class({
 
 	initialize: function(fleh){
 		this.parent(fleh);
-		console.log('Fleh.Worker.Project');
 	},
 
 	enhance: function() {

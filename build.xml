@@ -46,7 +46,23 @@
 		<concat destfile="build/fleh.js">
 			<fileset dir="source/js/mootools" />
 			<file file="source/js/fleh.js" />
-			<fileset dir="source/js/fleh"/>
+			<file file="source/js/fleh/localstorage.js" />
+			<file file="source/js/fleh/log.js" />
+			<file file="source/js/fleh/autopilot.js" />
+			<file file="source/js/fleh/values.js" />
+			<file file="source/js/fleh/tools.js" />
+			<file file="source/js/fleh/strategy.js" />
+			<file file="source/js/fleh/strategy/best.js" />
+			<file file="source/js/fleh/strategy/first.js" />
+			<file file="source/js/fleh/strategy/last.js" />
+			<file file="source/js/fleh/strategy/shorties.js" />
+			<file file="source/js/fleh/worker.js" />
+			<file file="source/js/fleh/worker/career.js" />
+			<file file="source/js/fleh/worker/home.js" />
+			<file file="source/js/fleh/worker/project.js" />
+			<file file="source/js/fleh/worker/shopping.js" />
+			<file file="source/js/fleh/worker/sparetime.js" />
+			<file file="source/js/fleh/worker/sparetime/party.js" />
 			<file file="source/js/init.js" />
 		</concat>
 		<!-- copy manifest -->
