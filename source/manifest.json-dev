@@ -1,7 +1,7 @@
 {
 	"name": "FL Enhanced",
 	"description": "Fliplife Enhanced for Google Chrome (development)",
-	"version": "0.11.3",
+	"version": "0.11.4",
 	"icons": {
 		"16": "icon/16.png",
 		"48": "icon/48.png",
@@ -25,6 +25,7 @@
 				"js/fleh/values.js",
 				"js/fleh/tools.js",
 				"js/fleh/strategy.js",
+				"js/fleh/strategy/null.js",
 				"js/fleh/strategy/best.js",
 				"js/fleh/strategy/first.js",
 				"js/fleh/strategy/last.js",
