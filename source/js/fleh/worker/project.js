@@ -18,16 +18,21 @@ Fleh.Worker.Project = new Class({
 			this.fleh.log.log('Mit diesem Job beschäftigt. Seite wird nach 30 Sekunden neu geladen.');
 			Fleh.Tools.reloadAfter(30);
 
-		} else if (container && container.getElement('#timeSlider')) {
+		} else if (container && container.getElement('#timeSlider') && this.fleh.fv.getCurrentEnergy()>1) {
+
 			// find max energy value, set and submit
 			var meter = container.getElement('#timeSlider .meter');
 			var input = $('fe-amount');
 			var form = $('submitForm');
-			var value = meter.get('data-max');
+			var value = parseInt(meter.get('data-max')) - 1;
 			// value = 1; // just for developing
 			// meter.set('data-value',value); // doesn't work
 			input.value = value;
 			form.submit();
+
+		} else if (container && container.getElement('#timeSlider')) {
+			this.fleh.log.log('1 Energie Partyreserve.');
+			Fleh.Tools.reloadAfter(60);
 
 		} else if (container && container.getElement('.jobFinishedContainer')) {
 			console.log('project done.');
@@ -60,8 +65,8 @@ Fleh.Worker.Project = new Class({
 
 		} else {
 			console.log('???');
-			Fleh.Tools.reloadAfter(30);
 		}
+		Fleh.Tools.reloadAfter(60);
 	}
 
 });
