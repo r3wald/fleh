@@ -4,13 +4,14 @@ Fleh.Strategy.Last = new Class({
 
 	name: 'Fleh.Strategy.Last',
 	
-	label: 'Letzten',
+	label: 'Nimm letzten Job',
 	
-	description: 'Es wird immer der letzte Job genommen. Damit werden kleinere Jobs bevorzugt.',
+	description: 'Es wird immer der letzte verfügbare Job genommen. Damit werden kleinere Jobs bevorzugt.',
 	
 	select: function(jobs) {
 		if (!jobs || jobs.length<1) {
 			console.error('no jobs given!');
+			return null;
 		}
 		return jobs.pop();
 	}

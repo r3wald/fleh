@@ -4,13 +4,14 @@ Fleh.Strategy.First = new Class({
 
 	name: 'Fleh.Strategy.First',
 	
-	label: 'Ersten',
+	label: 'Nimm ersten Job',
 	
-	description: 'Es wird immer der erste Job genommen. Damit werden größere Jobs bevorzugt.',
+	description: 'Es wird immer der erste verfügbare Job genommen. Damit werden größere Jobs bevorzugt.',
 	
 	select: function(jobs) {
 		if (!jobs || jobs.length<1) {
 			console.error('no jobs given!');
+			return null;
 		}
 		return jobs[0];
 	}

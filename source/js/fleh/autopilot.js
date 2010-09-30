@@ -30,15 +30,8 @@ Fleh.Autopilot = new Class({
 	},
 
 	setInitialState: function(){
-		if (window.location.search.indexOf('autopilot=0') > -1) {
-			this.save('enabled', 0);
-		} else if (window.location.search.indexOf('autopilot=1') > -1) {
+		if (this.load('enabled') == 1) {
 			this.enabled = true;
-			this.save('enabled', 1);
-		} else if (this.load('enabled') == 1) {
-			this.enabled = true;
-		} else {
-			// disabled
 		}
 	},
 
@@ -74,8 +67,7 @@ Fleh.Autopilot = new Class({
 			}
 		}.bind(this));
 		this.control = new Element('div', {
-			'id': 'fleh-autopilot',
-			'text': 'Autopilot: '
+			'id': 'fleh-autopilot'
 		});
 		select = this.buildStrategiesSelect();
 		this.control.grab(select);
@@ -88,12 +80,12 @@ Fleh.Autopilot = new Class({
 		if (this.enabled) {
 			button.set({
 				'class': 'fleh-switch-off',
-				'text': 'Ausschalten'
+				'text': 'Autopilot Aus'
 			});
 		} else {
 			button.set({
 				'class': 'fleh-switch-on',
-				'text': 'Einschalten'
+				'text': 'Autopilot Ein'
 			});
 		}
 	},
