@@ -23,9 +23,7 @@ Fleh.Worker = new Class({
 			full = new Date();
 			full.setTime(full.getTime() + 1000 * 60 * 10 * (this.fleh.fv.getMaxEnergy() - this.fleh.fv.getCurrentEnergy()));
 			time = full.getHours() + ":" + (full.getMinutes() > 9 ? "" : 0) + full.getMinutes();
-			text = "Energie: " + this.fleh.fv.getCurrentEnergy() + " von " + this.fleh.fv.getMaxEnergy() + "\n";
-			this.fleh.log.log(text);
-			text = "volle Energie um " + time;
+			text = "volle Energie (" + this.fleh.fv.getMaxEnergy() + ") um " + time;
 			this.fleh.log.log(text);
 		}
 	}

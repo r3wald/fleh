@@ -69,6 +69,10 @@
 	border: 1px solid #ddd;
 }
 
+#fleh-log p {
+	font-size: 80%;
+}
+
 .fleh-hint-max-xph,
 .fleh-hint-max-xphb,
 .fleh-hint-max-cph,

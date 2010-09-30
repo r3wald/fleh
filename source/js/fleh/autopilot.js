@@ -44,6 +44,7 @@ Fleh.Autopilot = new Class({
 		this.save('enabled', 1);
 		this.updateControl();
 		this.fleh.log.log('Autopilot aktiviert');
+		this.saveCurrentStrategy();
 		// this.fleh.startAutopilot(); // doesn't work -> reload instead
 		Fleh.Tools.reload();
 	},
@@ -103,18 +104,20 @@ Fleh.Autopilot = new Class({
 		});
 		Fleh.Strategy.instances.each(function(s) {
 			checked = s.name == strategy;
-			console.log(s.name, strategy, checked, s.getOption(checked));
 			select.grab(s.getOption(checked));
 		});
 		select.addEvent('change',function() {
-			strategy = $('fleh-strategy').value;
-			this.saveStrategy(strategy);
+			this.saveCurrentStrategy();
 		}.bind(this));
 		return select;
 	},
 
-	saveStrategy: function(name) {
-		console.log('strategy', name);
+	saveCurrentStrategy: function() {
+		var name, strategy;
+		name = $('fleh-strategy').value;
+		console.log(name);
+		strategy = eval("new "+name+"()");
+		this.fleh.log.log("Strategie: " + strategy.description);
 		this.save('strategy', name);
 	}
 

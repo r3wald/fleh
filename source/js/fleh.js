@@ -122,7 +122,6 @@ var Fleh = new Class({
 			return;
 		}
 		if (!this.fa.isEnabled()) {
-			console.log('autopilot not enabled');
 			return;
 		}
 		this.worker.autopilot();
