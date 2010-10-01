@@ -24,7 +24,7 @@ Fleh.Worker.Project = new Class({
 			var meter = container.getElement('#timeSlider .meter');
 			var input = $('fe-amount');
 			var form = $('submitForm');
-			var value = parseInt(meter.get('data-max')) - 1;
+			var value = parseInt(meter.get('data-max'));
 			// value = 1; // just for developing
 			// meter.set('data-value',value); // doesn't work
 			input.value = value;
