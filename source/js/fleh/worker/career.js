@@ -21,9 +21,20 @@ Fleh.Worker.Career = new Class({
 	 * @var array
 	 */
 	jobs_locked: null,
+	
+	/**
+	 * @var array
+	 */
+	cph: null,
+	cphb: null,
+	xph: null,
+	xphb: null,
+	
+	max_person_count: 5,
 
 	initialize: function(fleh){
 		this.parent(fleh);
+		this.cph = this.cphb = this.xph = this.xphb = [];
 		this.jobs_done = $$('ul.activities div.deadlineReached').getParent();
 		this.jobs_open = $$('ul.activities li.orange');
 		this.jobs_locked = $$('ul.activities li.locked');
@@ -42,38 +53,57 @@ Fleh.Worker.Career = new Class({
 	},
 
 	autopilot: function() {
+		/* if (this.fleh.fv.getCurrentEnergy()==0) {
+			this.fleh.log.log('Keine Energie. Seite wird nach 60 Sekunden neu geladen.');
+			Fleh.Tools.reloadAfter(60);
+		} else */
 		if (this.jobs_open.length>0) {
 			this.resumeJob();
 		} else if (this.jobs_available.length>0) {
 			this.startJob();
 		} else {
-			this.fleh.log.log('Keine offenen Jobs. Seite wird nach 30s neu geladen.');
-			Fleh.Tools.reloadAfter(30);
+			this.fleh.log.log('Keine offenen Jobs. Seite wird nach 60 Sekunden neu geladen.');
+			Fleh.Tools.reloadAfter(60);
 		}
+		Fleh.Tools.reloadAfter(60);
 	},
 
-	/**
-	 * calculate jobs for only one person (missing)
-	 */
-	findJobsForOneMissingPerson: function(jobs) {
-		var result = [];
-		jobs.each(function(element,index) {
-			people = element.getElement('span.participants').get('text').split('/');
-			if (people[1]-people[0]==1) {
-				result.push(element);
-			}
-		});
-		return result;
+	filterAvailableJobs: function() {
+		var jobs = this.jobs_available.filter(
+				function (job)
+				{
+					var p,p_total,p_there;
+					p = job.getElement('span.participants').get('text').split('/');
+					p_there = p[0];
+					p_total = p[1];
+					if (p_total - p_there != 1) {
+						// more than one participant needed
+						// console.log(p_total + '/' + p_there);
+						return false;
+					}
+					if (p_total > this.max_person_count) {
+						// more participants than acceptable
+						// console.log(p_total + '>'+this.max_person_count);
+						return false;
+					}
+					return true;
+				}.bind(this)
+		);
+		return jobs;
 	},
 	
+	/**
+	 * calculate some values, select strategy and start a job
+	 */
 	startJob: function() {
 		var max_cph_index, max_xph_index, max_cph, max_xph, next_job, jobs, people;
 		// take only available jobs where one person is needed
-		jobs = this.findJobsForOneMissingPerson(this.jobs_available);
+		jobs = this.filterAvailableJobs();
 		// none available? quit
 		if (jobs.length==0) {
-			this.fleh.log.log('Keine verfügbaren Jobs. Seite wird nach 30s neu geladen.');
-			Fleh.Tools.reloadAfter(30);
+			this.fleh.log.log('Keine verfügbaren Jobs. Seite wird nach 60s neu geladen.');
+			Fleh.Tools.reloadAfter(60);
+			return;
 		}
 		max_cph=0;
 		max_xph=0;
@@ -101,7 +131,8 @@ Fleh.Worker.Career = new Class({
 		next_job = this.selectJobForCurrentStrategy(jobs);
 		
 		if (!next_job) {
-			this.fleh.log.log('Aktuell paßt kein Job.');
+			this.fleh.log.log('Aktuell paßt kein Job. Seite wird nach 60s neu geladen.');
+			Fleh.Tools.reloadAfter(60);
 			return;
 		}
 		
@@ -165,7 +196,12 @@ Fleh.Worker.Career = new Class({
 				max_cphb_index = index;
 				max_cphb = element.retrieve('cphb');
 			}
-	    });
+			this.cph[index] = element.retrieve('cph');
+			this.cphb[index] = element.retrieve('cphb');
+			this.xph[index] = element.retrieve('xph');
+			this.xphb[index] = element.retrieve('xphb');
+	    }.bind(this));
+		
 		/* add info */
 		new Element('div', {
 			'class': 'fleh-hint-max-cph',
@@ -190,6 +226,10 @@ Fleh.Worker.Career = new Class({
 				'html': 'Risiko! ' + max_xphb.toFixed(2) + 'XP/h'
 			}).inject(elements[max_xphb_index]);
 		}
+		console.log(this.cph);
+		console.log(this.cphb);
+		console.log(this.xph);
+		console.log(this.xphb);
 	},
 
 	enhanceActivity: function(element){
