@@ -15,8 +15,8 @@ Fleh.Worker.Project = new Class({
 		var rightbar = $('rightBar');
 
 		if (container && container.getElement('#timeSlider.busy')) {
-			this.fleh.log.log('Mit diesem Job beschäftigt. Seite wird nach 30 Sekunden neu geladen.');
-			Fleh.Tools.reloadAfter(30);
+			this.fleh.log.log('Mit diesem Job beschäftigt. Seite wird nach 60 Sekunden neu geladen.');
+			Fleh.Tools.reloadAfter(60);
 
 		} else if (container && container.getElement('#timeSlider') && this.fleh.fv.getCurrentEnergy()>1) {
 
@@ -24,14 +24,17 @@ Fleh.Worker.Project = new Class({
 			var meter = container.getElement('#timeSlider .meter');
 			var input = $('fe-amount');
 			var form = $('submitForm');
-			var value = parseInt(meter.get('data-max'));
+			var value = parseInt(meter.get('data-max')) - 1;
+			if (value==0) {
+				value = 1;
+			}
 			// value = 1; // just for developing
 			// meter.set('data-value',value); // doesn't work
 			input.value = value;
 			form.submit();
 
 		} else if (container && container.getElement('#timeSlider')) {
-			this.fleh.log.log('1 Energie Partyreserve.');
+			this.fleh.log.log('1 Energie Partyreserve. Seite wird nach 60 Sekunden neu geladen.');
 			Fleh.Tools.reloadAfter(60);
 
 		} else if (container && container.getElement('.jobFinishedContainer')) {
@@ -43,12 +46,12 @@ Fleh.Worker.Project = new Class({
 			Fleh.Tools.load(this.fleh.fv.getCareerUrl());
 
 		} else if (container && container.getElement('.unable') && this.fleh.fv.getCurrentEnergy() == 0) {
-			console.log('no energy.');
-			Fleh.Tools.reloadAfter(30);
+			this.fleh.log.log('Keine Energie. Seite wird nach 60 Sekunden neu geladen.');
+			Fleh.Tools.reloadAfter(60);
 
 		} else if (container && container.getElement('.busy')) {
-			this.fleh.log.log('Anderweitig beschäftigt. Seite wird nach 30 Sekunden neu geladen.');
-			Fleh.Tools.reloadAfter(30);
+			this.fleh.log.log('Anderweitig beschäftigt. Seite wird nach 60 Sekunden neu geladen.');
+			Fleh.Tools.reloadAfter(60);
 
 		} else if (rightbar && rightbar.getElement('.actionButtons a.green span').get('text') == 'Teilnehmen') {
 			console.log('start new job!');
