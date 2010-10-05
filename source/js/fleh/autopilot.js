@@ -46,7 +46,7 @@ Fleh.Autopilot = new Class({
 		this.fleh.log.log('Autopilot aktiviert');
 		this.saveCurrentStrategy();
 		// this.fleh.startAutopilot(); // doesn't work -> reload instead
-		Fleh.Tools.reload();
+		Fleh.Tools.reloadAfter(2);
 	},
 
 	disable: function(){
