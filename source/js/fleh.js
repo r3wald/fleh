@@ -36,6 +36,8 @@ var Fleh = new Class({
 		this.setWorkerForCurrentUrl();
 		this.startWorker();
 		this.startAutopilot();
+		this.log.log('Nichts zu tun. Seite wird nach 60s neu geladen.');
+		Fleh.Tools.reloadAfter(60);
 	},
 
 	createControls: function(){
