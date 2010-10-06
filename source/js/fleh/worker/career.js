@@ -246,18 +246,18 @@ Fleh.Worker.Career = new Class({
 			/* calculate values */
 			h = e_hours.get('text').split('/');
 			hours_done = 0;
-			hours_total = h[0];
+			hours_total = Fleh.Tools.parseNumber(h[0]);
 			if (h.length === 2) {
-				hours_done = h[0];
-				hours_total = h[1];
+				hours_done = Fleh.Tools.parseNumber(h[0]);
+				hours_total = Fleh.Tools.parseNumber(h[1]);
 			}
 			hours_rest = hours_total - hours_done;
-			bonus = parseFloat(e_bonus.get('text').replace('%',''));
+			bonus = Fleh.Tools.parseNumber(e_bonus.get('text'));
 			factor = 1.0 + bonus / 100;
-			xph = e_xp.get('text')/hours_total;
-			cph = e_cash.get('text')/hours_total;
-			xphb = factor * e_xp.get('text')/hours_total;
-			cphb = factor * e_cash.get('text')/hours_total;
+			xph = Fleh.Tools.parseNumber(e_xp.get('text')) / hours_total;
+			cph = Fleh.Tools.parseNumber(e_cash.get('text')) /hours_total;
+			xphb = factor * Fleh.Tools.parseNumber(e_xp.get('text')) /hours_total;
+			cphb = factor * Fleh.Tools.parseNumber(e_cash.get('text')) /hours_total;
 			/* store values for later */
 			element.store('xph', xph);
 			element.store('xphb', xphb);

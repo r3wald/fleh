@@ -27,6 +27,10 @@ Fleh.Tools = {
 			result = hours + ':' + (minutes < 10 ? '0' : '') + minutes + 'h';
 		}
 		return result;
+	},
+	
+	parseNumber: function(value) {
+		return parseInt(value.replace('.','').replace('%',''));
 	}
 
 };
