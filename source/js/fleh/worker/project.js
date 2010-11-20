@@ -6,10 +6,6 @@ Fleh.Worker.Project = new Class({
 		this.parent(fleh);
 	},
 
-	enhance: function() {
-		this.parent();
-	},
-
 	autopilot: function(){
 		var container = $('activityActionContainer');
 		var rightbar = $('rightBar');

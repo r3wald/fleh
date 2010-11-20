@@ -5,14 +5,6 @@ Fleh.Worker.Home = new Class({
 
 	initialize: function(fleh){
 		this.parent(fleh);
-	},
-
-	enhance: function(){
-		this.parent();
-	},
-
-	autopilot: function(){
-		Fleh.Tools.load(this.fleh.fv.getCareerUrl());
 	}
 
 });

@@ -6,13 +6,6 @@ Fleh.Worker.Sparetime = new Class({
 	initialize: function(fleh){
 		this.parent(fleh);
 		console.log('todo: Fleh.Worker.Sparetime');
-	},
-
-	enhance: function(){
-		this.parent();
-	},
-
-	autopilot: function(){
 	}
 
 });

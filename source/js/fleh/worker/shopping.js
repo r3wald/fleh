@@ -6,13 +6,6 @@ Fleh.Worker.Shopping = new Class({
 	initialize: function(fleh){
 		this.parent(fleh);
 		console.log('todo: Fleh.Worker.Shopping');
-	},
-
-	enhance: function(){
-		this.parent();
-	},
-
-	autopilot: function(){
 	}
 
 });
