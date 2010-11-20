@@ -33,20 +33,30 @@ Fleh.Values = new Class({
 		container = $('money');
 		element = container.getElement('.cash');
 		if (element) {
-			this.values.cash = parseInt(element.get('text').replace('.',''));
+			this.values.cash = Fleh.Tools.parseNumber(element.get('text'));
 		}
 		element = container.getElement('.credits');
 		if (element) {
-			this.values.credits = parseInt(element.get('text').replace('.',''));
+			this.values.credits = Fleh.Tools.parseNumber(element.get('text'));
 		}
 
 		element = $('energyBar');
-		this.values.energy_max = parseInt(element.get('data-max'));
-		this.values.energy_current = parseInt(element.get('data-value'));
+		this.values.energy_max = Fleh.Tools.parseNumber(element.get('data-max'));
+		this.values.energy_current = Fleh.Tools.parseNumber(element.get('data-value'));
 
 		// console.log(this.values);
 	},
 
+	/**
+	 * current url
+	 *
+	 * @return string
+	 */
+	getCurrentUrl: function() {
+		return window.location.protocol + '//'
+		+ window.location.hostname + window.location.pathname;
+	},
+	
 	/**
 	 * link to my home
 	 *
