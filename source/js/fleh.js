@@ -36,8 +36,6 @@ var Fleh = new Class({
 		this.setWorkerForCurrentUrl();
 		this.startWorker();
 		this.startAutopilot();
-		this.log.log('Nichts zu tun. Seite wird nach 60s neu geladen.');
-		Fleh.Tools.reloadAfter(60);
 	},
 
 	createControls: function(){
@@ -79,26 +77,17 @@ var Fleh = new Class({
 
 	setWorkerForCurrentUrl: function(){
 		var url_current, url_project;
-		url_current = window.location.protocol + '//' + window.location.hostname + window.location.pathname;
+		url_current = this.fv.getCurrentUrl();
 		url_project = '^' + this.fv.getCareerUrl() + '/projects/[0-9]+$';
 
-		if (url_current == this.fv.getHomeUrl()) {
-			this.worker = new Fleh.Worker.Home(this);
-
-		} else if (url_current == this.fv.getCareerUrl()) {
+		if (url_current == this.fv.getCareerUrl()) {
 			this.worker = new Fleh.Worker.Career(this);
-
-		} else if (url_current == this.fv.getSparetimeUrl()) {
-			this.worker = new Fleh.Worker.Sparetime(this);
-
-		} else if (url_current == this.fv.getShoppingUrl()) {
-			this.worker = new Fleh.Worker.Shopping(this);
 
 		} else if (url_current.match(url_project)) {
 			this.worker = new Fleh.Worker.Project(this);
 
 		} else {
-			console.log('no match :-( (' + url_current + ')');
+			console.log('no match, no worker :-( (' + url_current + ').');
 		}
 	},
 
@@ -115,18 +104,24 @@ var Fleh = new Class({
 	},
 
 	startAutopilot: function(){
-		if (!this.worker) {
-			console.log('no worker set');
-			return;
-		}
-		if (!this.worker.autopilot) {
-			console.log('no autopilot defined for worker');
-			return;
-		}
 		if (!this.fa.isEnabled()) {
 			return;
 		}
-		this.worker.autopilot();
+		if (!this.worker) {
+			console.log('no worker set. back to work.');
+		} else if (!this.worker.autopilot) {
+			console.log('no autopilot defined for worker.');
+		} else {
+			this.worker.autopilot();
+			return;
+		}
+		// autopilot enabled, but don't know what to do
+		// fallback: switch to career and reload every 60 seconds
+		if (this.fleh.getCurrentUrl() = this.fleh.getCareerUrl()) {
+			Fleh.Tools.reloadAfter(60);
+		} else  {
+			Fleh.Tools.load(this.fv.getCareerUrl());
+		}
 	}
 
 });
