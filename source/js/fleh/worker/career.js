@@ -31,6 +31,7 @@ Fleh.Worker.Career = new Class({
 	xphb: null,
 	
 	max_person_count: 5,
+	max_hours_count: 80,
 
 	initialize: function(fleh){
 		this.parent(fleh);
@@ -72,8 +73,9 @@ Fleh.Worker.Career = new Class({
 		var jobs = this.jobs_available.filter(
 				function (job)
 				{
-					var p,p_total,p_there;
+					var p,p_total,p_there,h_total;
 					p = job.getElement('span.participants').get('text').split('/');
+					h_total = job.retrieve('hours');
 					p_there = p[0];
 					p_total = p[1];
 					if (p_total - p_there != 1) {
@@ -84,6 +86,11 @@ Fleh.Worker.Career = new Class({
 					if (p_total > this.max_person_count) {
 						// more participants than acceptable
 						// console.log(p_total + '>'+this.max_person_count);
+						return false;
+					}
+					if (h_total > this.max_hours_count) {
+						// more hours than acceptable
+						// console.log(h_total + '>'+this.max_hours_count);
 						return false;
 					}
 					return true;
@@ -226,10 +233,10 @@ Fleh.Worker.Career = new Class({
 				'html': 'Risiko! ' + max_xphb.toFixed(2) + 'XP/h'
 			}).inject(elements[max_xphb_index]);
 		}
-		console.log(this.cph);
-		console.log(this.cphb);
-		console.log(this.xph);
-		console.log(this.xphb);
+//		console.log(this.cph);
+//		console.log(this.cphb);
+//		console.log(this.xph);
+//		console.log(this.xphb);
 	},
 
 	enhanceActivity: function(element){
@@ -279,5 +286,4 @@ Fleh.Worker.Career = new Class({
 			e_hours.set('title',text);
 		}
 	}
-
 });
