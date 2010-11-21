@@ -116,12 +116,13 @@ var Fleh = new Class({
 			return;
 		}
 		// autopilot enabled, but don't know what to do
-		// fallback: switch to career and reload every 60 seconds
-		if (this.fleh.getCurrentUrl() = this.fleh.getCareerUrl()) {
-			Fleh.Tools.reloadAfter(60);
-		} else  {
+		// fallback: switch to career page
+		if (this.fv.getCurrentUrl() != this.fv.getCareerUrl()) {
 			Fleh.Tools.load(this.fv.getCareerUrl());
+			return;
 		}
+		// reload every 60 seconds
+		Fleh.Tools.reloadAfter(60);
 	}
 
 });
