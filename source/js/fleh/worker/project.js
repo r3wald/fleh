@@ -11,6 +11,7 @@ Fleh.Worker.Project = new Class({
 		var rightbar = $('rightBar');
 
 		if (container && container.getElement('#timeSlider.busy')) {
+			// busy
 			this.fleh.log.log('Mit diesem Job beschäftigt. Seite wird nach 60 Sekunden neu geladen.');
 			Fleh.Tools.reloadAfter(60);
 
@@ -20,7 +21,7 @@ Fleh.Worker.Project = new Class({
 			var meter = container.getElement('#timeSlider .meter');
 			var input = $('fe-amount');
 			var form = $('submitForm');
-			var value = parseInt(meter.get('data-max')) - 1;
+			var value = parseInt(meter.get('data-max'));
 			if (value==0) {
 				value = 1;
 			}
@@ -29,41 +30,36 @@ Fleh.Worker.Project = new Class({
 			input.value = value;
 			form.submit();
 
-		} else if (container && container.getElement('#timeSlider')) {
-			this.fleh.log.log('1 Energie Partyreserve. Seite wird nach 60 Sekunden neu geladen.');
-			Fleh.Tools.reloadAfter(60);
+//		} else if (container && container.getElement('#timeSlider')) {
+//			this.fleh.log.log('1 Energie Partyreserve. Seite wird nach 60 Sekunden neu geladen.');
+//			Fleh.Tools.reloadAfter(60);
 
 		} else if (container && container.getElement('.jobFinishedContainer')) {
-			console.log('project done.');
+			// project done.
 			Fleh.Tools.load(this.fleh.fv.getCareerUrl());
 
 		} else if (container && container.getElement('.unable') && this.fleh.fv.getCurrentEnergy() > 0) {
-			console.log('your job is done.');
+			// your job is done. project not finished yet.
 			Fleh.Tools.load(this.fleh.fv.getCareerUrl());
 
 		} else if (container && container.getElement('.unable') && this.fleh.fv.getCurrentEnergy() == 0) {
+			// no energy
 			this.fleh.log.log('Keine Energie. Seite wird nach 60 Sekunden neu geladen.');
 			Fleh.Tools.reloadAfter(60);
 
 		} else if (container && container.getElement('.busy')) {
+			// busy
 			this.fleh.log.log('Anderweitig beschäftigt. Seite wird nach 60 Sekunden neu geladen.');
 			Fleh.Tools.reloadAfter(60);
 
-		} else if (rightbar && rightbar.getElement('.actionButtons a.green span').get('text') == 'Teilnehmen') {
-			console.log('start new job!');
-			var buttons = $$('.projectHeader .actionButtons a.green');
-			if (!buttons.length) {
-				// error
-				return;
-			}
-			link = buttons[0].href;
-			if (!link.match(/\/apply/)) {
-				return;
-			}
-			Fleh.Tools.load(link);
-
+		} else if ($('btnJoinActivity') && this.fleh.fv.getCurrentEnergy() > 0) {
+			// start job
+			var button = $('btnJoinActivity');
+			Fleh.Tools.clickButton(button);
+			
 		} else {
-			console.log('???');
+			// don't know what to do
+			// console.log('???');
 		}
 		Fleh.Tools.reloadAfter(60);
 	}
