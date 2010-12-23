@@ -11,7 +11,10 @@ Fleh.Worker = new Class({
 		this.updateEnergyBar();
 	},
 
-	autopilot: function(){},
+	autopilot: function(){
+		this.closeOverlayFinishedJob();
+//		this.closeOverlayBonusMaterial();
+	},
 
 	updateEnergyBar: function(){
 		var e, full, time, text;
@@ -26,6 +29,33 @@ Fleh.Worker = new Class({
 			text = "volle Energie (" + this.fleh.fv.getMaxEnergy() + ") um " + time;
 			this.fleh.log.log(text);
 		}
+	},
+	
+	closeOverlayFinishedJob: function() {
+		var overlays, overlay, button;
+		overlays = $$('div.overlay.professionFinished');
+		if (0==overlays.length) {
+			return;
+		}
+		overlay = overlays[0];
+		button = overlay.getElement('button.close.red');
+		if (!button) {
+			return;
+		}
+		Fleh.Tools.clickButton(button);
+	},
+	
+	closeOverlayBonusMaterial: function() {
+		var overlays, overlay, item1;
+		overlays = $$('div.overlay.bonusMaterial');
+		if (0==overlays.length) {
+			return;
+		}
+		overlay = overlays[0];
+		item1 = overlay.getElement('#option-one');
+		if (!item1) {
+			return;
+		}
+//		Fleh.Tools.clickButton(item1);
 	}
-
 });
