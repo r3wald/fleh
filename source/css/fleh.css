@@ -73,12 +73,11 @@
 	font-size: 80%;
 }
 
-.fleh-hint-max-xph,
-.fleh-hint-max-xphb,
-.fleh-hint-max-cph,
-.fleh-hint-max-cphb {
+.fleh-hint {
 	position: relative;
-	z-index: 999;
+	top: -5px;
+	width: 100%;
+	z-index: 100;
 	font-weight: bold;
 	background: #fff;
 	padding: 2px;
@@ -87,12 +86,14 @@
 	margin-bottom: -1px;
 }
 
-.fleh-hint-max-xph,
-.fleh-hint-max-xphb {
+.fleh-hint-max-xph .xph {
 	color: #202080;
 }
 
-.fleh-hint-max-cph,
-.fleh-hint-max-cphb {
+.fleh-hint-max-cph .cph {
+	color: #802020;
+}
+
+.fleh-hint-max-cphb .cphb {
 	color: #208020;
 }
